@@ -1,0 +1,98 @@
+---
+import { getEntryBySlug, getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+<Layout title={project?.data.title || 'Project'}>
+  <section class="section project-detail">
+    <div class="container">
+      <div class="project-header">
+        {project?.data.bannerImage && (
+          <img src={project.data.bannerImage} alt={project.data.title + ' header image'} class="project-header-image" />
+        )}
+      </div>
+      <h1 class="project-title font-retro">{project?.data.title}</h1>
+      <div class="project-tags">
+        {project?.data.tags && project.data.tags.map(tag => (
+          <span class="tag" key={tag}>{tag}</span>
+        ))}
+      </div>
+      <div class="project-links">
+        Links: 
+        {project?.data.links && project.data.links.map(link => (
+          <a href={link.url} target="_blank" class="project-link">{link.label}</a>
+        ))}
+      </div>
+      <p class="project-desc">{project?.data.description}</p>
+      <article class="project-body">
+        <Content />
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.project-title {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+.project-desc {
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 20px 0px;
+}
+article.project-body {
+    padding: 30px 0px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+}
+.project-header {
+    display: flex;
+    postion: relative;
+}
+
+.project-body h2 {
+    font-size: 32px;
+    margin: 0;
+    font-weight: 600;
+}
+img.project-header-image {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 9px 7px 1000px 100px rgb(178 31 102 / 22%);
+    border: 1px solid rgb(178 31 102 / 36%);
+}
+.project-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-weight: 600;
+}
+a.project-link{
+  color: #ffffff;
+  text-transform: uppercase;
+}
+a.project-link:hover {
+  color: var(--highlight);
+  text-decoration: underline;
+}
+article.project-body ul {
+    padding-left: 20px;
+}
+</style>

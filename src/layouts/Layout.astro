@@ -1,0 +1,232 @@
+---
+import Header from '../components/Header.astro';
+
+export interface Props {
+	title: string;
+	description?: string;
+}
+
+const {
+	title,
+	description = "Full Stack Developer passionate about creating tools for content creators and Twitch streamers",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="https://kit.fontawesome.com/4f57002929.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+	<Header />
+
+		<script>
+			if (typeof window !== "undefined") {
+				window.addEventListener("DOMContentLoaded", () => {
+					const nav = document.querySelector(".nav");
+					const onScroll = () => {
+						if (window.scrollY > 10) {
+							nav.classList.add("scrolled");
+						} else {
+							nav.classList.remove("scrolled");
+						}
+					};
+					window.addEventListener("scroll", onScroll);
+					onScroll();
+
+					// Intersection Observer for active nav link (only on homepage)
+					if (
+						window.location.pathname === "/" ||
+						window.location.pathname === "/index.html"
+					) {
+						const sections =
+							document.querySelectorAll("section[id]");
+						const navLinks =
+							document.querySelectorAll(".nav-links a");
+						const sectionIdToNav = {};
+						navLinks.forEach((link) => {
+							const href = link.getAttribute("href");
+							if (href && href.startsWith("/#")) {
+								sectionIdToNav[href.slice(2)] = link;
+							}
+						});
+						const observer = new window.IntersectionObserver(
+							(entries) => {
+								entries.forEach((entry) => {
+									if (entry.isIntersecting) {
+										Object.values(sectionIdToNav).forEach(
+											(link) =>
+												link.classList.remove("active")
+										);
+										const link =
+											sectionIdToNav[entry.target.id];
+										if (link) link.classList.add("active");
+									}
+								});
+							},
+							{
+								root: null,
+								rootMargin: "0px 0px -60% 0px",
+								threshold: 0.3,
+							}
+						);
+						sections.forEach((section) =>
+							observer.observe(section)
+						);
+					}
+				});
+			}
+		</script>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--primary: #381460;
+		--accent: #d7257b;
+		--highlight: #ffbd69;
+		--text-dark: #2a2a2a;
+		--text-light: #e0e0e0;
+		--text-muted: #b0b0b0;
+		--bg-light: #1a1a2e;
+		--bg-dark: #0f0f1a;
+		--bg-darker: #0a0a12;
+		--border-light: #4a2c5a;
+		--retro-font: 'VT323', monospace;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+	.font-retro {
+		font-family: "VT323", monospace;
+		font-weight: 400;
+		font-style: normal;
+	}
+	body {
+		font-family: "VT323", monospace;
+		font-family: "Montserrat", sans-serif;
+		font-optical-sizing: auto;
+		font-style: normal;
+		line-height: 1.6;
+		color: var(--text-light);
+		background-color: var(--bg-darker);
+	}
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 24px;
+	}
+
+	.section {
+		padding: 120px 0;
+	}
+	.section.min-height-screen {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+	}
+	.project-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 16px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.tag {
+		background: rgba(178, 31, 102, 0.8);
+		color: white;
+		padding: 4px 12px;
+		border-radius: 12px;
+		font-size: 12px;
+		font-weight: 600;
+		transition: all 0.3s ease;
+		border: 1px solid rgba(178, 31, 102, 0.3);
+	}
+
+	.tag:hover {
+		transform: scale(1.1);
+		background: linear-gradient(45deg, var(--accent), var(--primary));
+		box-shadow: 0 4px 12px rgba(178, 31, 102, 0.6);
+	}
+
+	.project-body h2 {
+		font-size: 2rem;
+		color: var(--accent, #d7257b);
+		margin-bottom: -0.25em;
+		font-weight: 400;
+		font-family: var(--retro-font);
+	}
+	.btn {
+		display: inline-block;
+		padding: 14px 28px;
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: 600;
+		transition: all 0.3s ease;
+		border: 2px solid transparent;
+		position: relative;
+		overflow: hidden;
+		transform-style: preserve-3d;
+	}
+
+	.btn-primary {
+		background: linear-gradient(45deg, var(--accent), var(--primary));
+		color: white;
+		box-shadow: 0 4px 15px rgba(178, 31, 102, 0.4);
+	}
+
+	.btn-primary:hover {
+		background: linear-gradient(45deg, var(--primary), var(--accent));
+		transform: translateY(-3px) scale(1.05);
+		box-shadow: 0 8px 25px rgba(178, 31, 102, 0.6);
+	}
+
+	.btn-secondary {
+		background: transparent;
+		color: white;
+		border: 2px solid;
+		border-image: linear-gradient(45deg, var(--accent), var(--primary)) 1;
+		box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+	}
+
+	.btn-secondary:hover {
+		background: linear-gradient(
+			45deg,
+			rgba(178, 31, 102, 0.1),
+			rgba(56, 20, 96, 0.1)
+		);
+		color: var(--accent);
+		border-image: linear-gradient(45deg, var(--primary), var(--accent)) 1;
+		transform: translateY(-3px) scale(1.05);
+		box-shadow: 0 8px 25px rgba(178, 31, 102, 0.3);
+	}
+</style>

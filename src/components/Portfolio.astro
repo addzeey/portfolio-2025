@@ -1,0 +1,772 @@
+---
+import { getCollection } from 'astro:content';
+import skills from '../content/sections/skills.yaml';
+const projects = await getCollection('projects');
+---
+
+<!-- Hero Section -->
+<section id="home" class="hero min-height-screen">
+	<div class="container">
+		<div class="hero-content font-retro">
+			<h1 class="hero-title fade-in-up">
+				Full Stack Developer,  
+				
+			</h1>
+			<h2 class="highlight-text fade-in-up">Engineering Digital & Creative Solutions</h2>
+			<p class="hero-description fade-in-up-delay-1">
+				From web applications to creator-driven tools, I craft systems that solve real problems and support meaningful, interactive experiences.
+			</p>
+			<div class="hero-actions fade-in-up-delay-2">
+				<a href="#projects" class="btn btn-primary">Explore My Work</a>
+				<a href="#contact" class="btn btn-secondary">Connect with me</a>
+			</div>
+		</div>
+		<a href="#about" class="cta-link absolute-cta font-retro">Who am I?<i class="fa-solid fa-angle-down"></i></a>
+	</div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section about min-height-screen">
+	<div class="container">
+		<h2 class="section-title font-retro">About Me</h2>
+		<div class="about-content">
+			<div class="about-text font-retro">
+				<p>
+					As a full stack developer with a design-focused mindset, 
+					I build digital tools that simplify and enhance the content creation process. 
+					From interactive features to backend systems, 
+					my work supports creators in connecting with their audience and bringing ideas to life.
+				</p>
+				<p>
+					I care deeply about building solutions that reduce friction, 
+					boost creativity, and make it easier to do great work.
+				</p>
+			</div>
+		</div>
+		<a href="#skills" class="cta-link absolute-cta font-retro">See My Skills <i class="fa-solid fa-angle-down"></i></a>
+	</div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="section skills min-height-screen">
+	<div class="container">
+		<h2 class="section-title font-retro">Skills & Technologies</h2>
+		<div class="skills-grid">
+			{skills.map(category => (
+				<div class="skill-category" key={category.category}>
+					<h3 class="font-retro"><i class={`fa-solid ${category.icon}`}></i> {category.category}</h3>
+					<div class="skill-tags">
+						{category.skills.map(skill => (
+							<span class="skill-tag" key={skill}>{skill}</span>
+						))}
+					</div>
+				</div>
+			))}
+		</div>
+		<div>
+			<a href="#projects" class="cta-link absolute-cta font-retro">View My Projects <i class="fa-solid fa-angle-down"></i></a>
+		</div>
+	</div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section projects min-height-screen">
+	<div class="container">
+		<h2 class="section-title">Featured Projects</h2>
+		<div class="projects-grid">
+			{projects.map(project => (
+				<div class="project-card" id={project.id}>
+						<div class="project-header">
+							<a href={`/projects/${project.slug}`} style="text-decoration: none; color: inherit;">
+								<h3 class="font-retro">{project.data.title}</h3>
+							</a>
+							<div class="project-tags">
+								{project.data.tags && project.data.tags.map(tag => (
+									<span class="tag">{tag}</span>
+								))}
+							</div>
+						</div>
+						<p class="project-description font-retro">{project.data.description}</p>
+					<div class="project-links font-retro">
+						<a href={`/projects/${project.slug}`} class="project-link">View Project</a>
+					</div>
+				</div>
+			))}
+		</div>
+		<a href="#contact" class="cta-link absolute-cta font-retro">Contact Me <i class="fa-solid fa-angle-down"></i></a>
+	</div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section contact min-height-screen">
+	<div class="container">
+		<h2 class="section-title">Let's Work Together</h2>
+		<div class="contact-content">
+			<p class="contact-description">
+				I'm always interested in new opportunities and collaborations,
+				especially projects that benefit the creator community.
+			</p>
+			<div class="contact-links">
+				<a href="mailto:hello@example.com" class="contact-link">
+					<span>Email</span>
+				</a>
+				<a href="https://github.com" class="contact-link">
+					<span>GitHub</span>
+				</a>
+				<a href="https://linkedin.com" class="contact-link">
+					<span>LinkedIn</span>
+				</a>
+				<a href="https://twitter.com" class="contact-link">
+					<span>Twitter</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	/* Removed navigation/header CSS, as it is now in Layout.astro */
+
+	/* Animation Utility Classes */
+	.fade-in-up {
+		animation: fadeInUp 0.8s ease-out;
+	}
+	.fade-in-up-delay-1 {
+		animation: fadeInUp 0.8s ease-out 0.2s both;
+	}
+	.fade-in-up-delay-2 {
+		animation: fadeInUp 0.8s ease-out 0.4s both;
+	}
+	.shimmer {
+		animation: shimmer 2s infinite linear;
+		background: linear-gradient(90deg, #fff, #f3ec78, #fff);
+		background-size: 200% 200%;
+	}
+
+	@keyframes shimmer {
+		0%,
+		100% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Hero Section */
+	.hero {
+		padding: 200px 0 160px;
+		background: var(--bg-darker);
+		position: relative;
+		overflow: hidden;
+		color: white;
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+	}
+
+	.hero::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: radial-gradient(
+				circle at 20% 80%,
+				rgba(56, 20, 96, 0.3) 0%,
+				transparent 70%
+			),
+			radial-gradient(
+				circle at 80% 20%,
+				rgba(178, 31, 102, 0.2) 0%,
+				transparent 70%
+			),
+			radial-gradient(
+				circle at 50% 50%,
+				rgba(56, 20, 96, 0.1) 0%,
+				transparent 80%
+			);
+		pointer-events: none;
+	}
+
+	.hero-content {
+		text-align: center;
+		max-width: 800px;
+		margin: 0 auto;
+		position: relative;
+		z-index: 1;
+	}
+
+	.hero-title {
+		font-size: 64px;
+		font-weight: 700;
+		margin: 0px;
+		line-height: 1.2;
+		/* text-transform: uppercase; */
+	}
+
+	.highlight-text {
+		color: var(--accent);
+		font-size: 48px;
+		margin: 0px;
+	}
+	
+
+	.hero-description {
+		font-size: 24px;
+		line-height: 1.6;
+		margin-bottom: 48px;
+		opacity: 0.8;
+		max-width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 16px;
+		justify-content: center;
+		flex-wrap: wrap;
+		font-size: 20px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	/* About Section */
+	.about {
+		background: var(--bg-dark);
+		position: relative;
+		min-height: 80vh;
+		display: flex;
+		align-items: center;
+	}
+
+	.about::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: radial-gradient(
+				circle at 30% 70%,
+				rgba(56, 20, 96, 0.2) 0%,
+				transparent 70%
+			),
+			radial-gradient(
+				circle at 70% 30%,
+				rgba(178, 31, 102, 0.1) 0%,
+				transparent 70%
+			);
+		pointer-events: none;
+	}
+
+	.section-title {
+		font-size: 48px;
+		font-weight: 700;
+		text-align: center;
+		margin-bottom: 80px;
+		background: linear-gradient(45deg, var(--accent), var(--highlight));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		position: relative;
+	}
+
+	.section-title::after {
+		content: "";
+		position: absolute;
+		bottom: -10px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 60px;
+		height: 3px;
+		background: linear-gradient(90deg, var(--accent), var(--primary));
+		border-radius: 2px;
+	}
+
+	.about-text {
+		max-width: 800px;
+		margin: 0 auto;
+		font-size: 24px;
+		line-height: 1.7;
+		position: relative;
+		z-index: 1;
+	}
+
+	.about-text p {
+		margin-bottom: 32px;
+		color: rgba(224, 224, 224, 0.8);
+		transition: color 0.3s ease;
+	}
+
+	.about-text p:hover {
+		color: var(--text-light);
+	}
+
+	/* Skills Section */
+	.skills {
+		background: var(--bg-darker);
+		position: relative;
+		min-height: 80vh;
+		display: flex;
+		align-items: center;
+	}
+
+	.skills::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: radial-gradient(
+				circle at 80% 20%,
+				rgba(178, 31, 102, 0.15) 0%,
+				transparent 70%
+			),
+			radial-gradient(
+				circle at 20% 80%,
+				rgba(56, 20, 96, 0.1) 0%,
+				transparent 70%
+			);
+		pointer-events: none;
+	}
+
+	.skills-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 40px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.skill-category {
+		padding: 30px;
+		border-radius: 16px;
+		border: 1px solid rgba(56, 20, 96, 0.3);
+		transition: all 0.3s ease;
+		position: relative;
+		overflow: hidden;
+		backdrop-filter: blur(10px);
+		background: linear-gradient(to bottom right, #9146ff20, #7f7f7f10);
+		/* border: 1px solid #9146ff50; */
+	}
+
+	.skill-category::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(
+			135deg,
+			rgba(178, 31, 102, 0.1) 0%,
+			transparent 50%
+		);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.skill-category:hover {
+		transform: translateY(-8px);
+		box-shadow: 0 15px 35px rgba(178, 31, 102, 0.4);
+		border-color: rgba(178, 31, 102, 0.5);
+	}
+
+	.skill-category:hover::before {
+		opacity: 1;
+	}
+
+	.skill-category h3 {
+		font-size: 26px;
+		font-weight: 600;
+		margin-bottom: 20px;
+		background: linear-gradient(45deg, var(--accent), var(--highlight));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		position: relative;
+		z-index: 1;
+	}
+
+	.skill-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.skill-tag {
+		background: rgba(56, 20, 96, 0.8);
+		color: white;
+		padding: 8px 16px;
+		border-radius: 20px;
+		font-size: 12px;
+		font-weight: 500;
+		border: 1px solid rgba(178, 31, 102, 0.3);
+		transition: all 0.3s ease;
+		position: relative;
+		overflow: hidden;
+		cursor: pointer;
+	}
+
+	.skill-tag:hover {
+		background: linear-gradient(45deg, var(--accent), var(--primary));
+		color: white;
+		transform: translateY(-3px) scale(1.05);
+		box-shadow: 0 15px 35px rgb(178 31 102 / 14%);
+		border-color: rgb(178 31 102 / 32%);
+	}
+
+	.skill-tag:hover::before {
+		left: 100%;
+	}
+
+	/* Projects Section */
+	.projects {
+		background: var(--bg-dark);
+		position: relative;
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+	}
+
+	.projects::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: radial-gradient(
+				circle at 50% 20%,
+				rgba(56, 20, 96, 0.2) 0%,
+				transparent 70%
+			),
+			radial-gradient(
+				circle at 20% 80%,
+				rgba(178, 31, 102, 0.15) 0%,
+				transparent 70%
+			);
+		pointer-events: none;
+	}
+
+	.projects-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 32px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.project-card {
+		border-radius: 12px;
+		padding: 32px;
+		border: 1px solid rgba(56, 20, 96, 0.3);
+		transition: all 0.4s ease;
+		position: relative;
+		overflow: hidden;
+		backdrop-filter: blur(10px);
+		background: linear-gradient(to bottom right, #9146ff20, #7f7f7f10);
+	}
+
+	.project-card::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(
+			135deg,
+			rgba(178, 31, 102, 0.15) 0%,
+			transparent 50%
+		);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+	}
+
+	.project-card:hover {
+		transform: translateY(-12px) scale(1.02);
+		box-shadow: 0 20px 50px rgba(178, 31, 102, 0.5);
+		border-color: rgba(178, 31, 102, 0.6);
+	}
+
+	.project-card:hover::before {
+		opacity: 1;
+	}
+
+	.project-header {
+		margin-bottom: 16px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.project-header h3 {
+		font-size: 24px;
+		font-weight: 600;
+		margin-bottom: 12px;
+		background: linear-gradient(45deg,var(--accent),var(--highlight));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		transition: all 0.3s ease;
+	}
+
+	.project-card:hover .project-header h3 {
+		transform: translateX(5px);
+	}
+
+
+	.project-description {
+		color: rgba(224, 224, 224, 0.7);
+		line-height: 1.6;
+		margin-bottom: 24px;
+		position: relative;
+		z-index: 1;
+		transition: color 0.3s ease;
+	}
+
+	.project-card:hover .project-description {
+		color: rgba(224, 224, 224, 0.9);
+	}
+
+	.project-links {
+		display: flex;
+		gap: 16px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.project-link {
+		background-clip: text;
+		text-decoration: none;
+		font-weight: 600;
+		transition: all 0.3s ease;
+		position: relative;
+		padding: 8px 16px;
+		border-radius: 8px;
+		border: 1px solid #ffffff;
+		color: #ffffff;
+	}
+
+	.project-link:hover {
+		background: linear-gradient(45deg,var(--accent),var(--highlight));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		transform: translateY(-2px);
+		border-color: rgba(178, 31, 102, 0.6);
+	}
+
+	.project-link:hover::before {
+		opacity: 1;
+	}
+
+	/* Contact Section */
+	.contact {
+		background: var(--bg-darker);
+		color: white;
+		position: relative;
+		min-height: 80vh;
+		display: flex;
+		align-items: center;
+	}
+
+	.contact::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: radial-gradient(
+				circle at 50% 50%,
+				rgba(56, 20, 96, 0.2) 0%,
+				transparent 70%
+			),
+			radial-gradient(
+				circle at 80% 80%,
+				rgba(178, 31, 102, 0.1) 0%,
+				transparent 70%
+			);
+		pointer-events: none;
+	}
+
+	.contact .section-title {
+		background: linear-gradient(45deg, var(--accent), var(--primary));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.contact-content {
+		text-align: center;
+		max-width: 600px;
+		margin: 0 auto;
+		position: relative;
+		z-index: 1;
+	}
+
+	.contact-description {
+		font-size: 20px;
+		line-height: 1.6;
+		margin-bottom: 48px;
+		opacity: 0.8;
+		transition: opacity 0.3s ease;
+	}
+
+	.contact-description:hover {
+		opacity: 1;
+	}
+
+	.contact-links {
+		display: flex;
+		justify-content: center;
+		gap: 32px;
+		flex-wrap: wrap;
+	}
+
+	.contact-link {
+		display: flex;
+		align-items: center;
+		padding: 12px 24px;
+		background: rgba(56, 20, 96, 0.8);
+		border-radius: 8px;
+		color: white;
+		text-decoration: none;
+		font-weight: 600;
+		transition: all 0.4s ease;
+		border: 1px solid rgba(178, 31, 102, 0.3);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.contact-link::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(
+			90deg,
+			transparent,
+			rgba(255, 255, 255, 0.2),
+			transparent
+		);
+		transition: left 0.6s ease;
+	}
+
+	.contact-link:hover {
+		background: linear-gradient(45deg, var(--accent), var(--primary));
+		color: white;
+		transform: translateY(-4px) scale(1.05);
+		box-shadow: 0 10px 25px rgba(178, 31, 102, 0.6);
+		border-color: rgba(178, 31, 102, 0.8);
+	}
+
+	.contact-link:hover::before {
+		left: 100%;
+	}
+
+	/* Responsive Design */
+	@media (max-width: 768px) {
+		.nav-links {
+			display: none;
+		}
+
+		.hero-title {
+			font-size: 42px;
+		}
+
+		.hero-description {
+			font-size: 20px;
+		}
+
+		.hero-actions {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.btn {
+			width: 100%;
+			max-width: 280px;
+			text-align: center;
+		}
+
+		.section-title {
+			font-size: 36px;
+		}
+
+		.about-text {
+			font-size: 18px;
+		}
+
+		.projects-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.contact-links {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.contact-link {
+			width: 100%;
+			max-width: 200px;
+			justify-content: center;
+		}
+	}
+
+	.cta-link {
+		margin-top: 32px;
+		display: inline-block;
+		font-size: 18px;
+	}
+	.absolute-cta {
+		position: absolute;
+		bottom: 0px;
+		left: 50%;
+		transform: translateX(-50%) translateY(0);
+		color: white;
+		background: none;
+		padding: 12px 24px;
+		font-size: 26px;
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: 500;
+		transition: all 0.3s ease;
+		display: inline-flex;
+		flex-direction: column;
+		align-content: center;
+		align-items: center;
+	}
+
+	.absolute-cta:hover {
+		position: absolute;
+		bottom: 0px;
+		left: 50%;
+		transform: translateX(-50%) translateY(-10px) scale(1.05);
+		color: var(--accent);
+		padding: 12px 24px;
+		border-radius: 8px;
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+</style>

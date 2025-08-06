@@ -1,0 +1,66 @@
+# Skills & Technologies
+
+- category: Frontend
+  icon: fa-palette
+  skills:
+    - HTML
+    - CSS
+    - Bootstrap
+    - JavaScript
+    - jQuery
+    - React
+    - Vue.js
+    - TypeScript
+    - Next.js
+    - Astro
+    - Tailwind CSS
+
+- category: Backend
+  icon: fa-server
+  skills:
+    - NodeJS
+    - Golang
+    - PHP
+    - MySQL
+    - Next.js
+    - .NET
+    - PostgreSQL
+    - MongoDB
+    - REST API
+    - Websockets
+
+- category: Tools, Technologies & Devops
+  icon: fa-wrench
+  skills:
+    - Linux
+    - Email APIs
+    - Docker
+    - AWS
+    - Azure
+    - Git
+    - CI/CD
+    - Vercel
+    - Netlify
+    - Cloudflare
+    - Swagger
+    - WinForm & WPF
+    - Electron
+    - Photino.NET
+    - Supabase
+    - Stripe Payments
+    - Xsolla Payments
+    - LLM Prompting and Intergration
+
+- category: Design Tools & Technologies
+  icon: fa-toolbox
+  skills:
+    - Adobe Photoshop
+    - Adobe Illustrator
+    - Adobe After Effects
+    - Adobe Premier Pro
+    - Adobe InDesign
+    - Adobe XD
+    - InVision
+    - Sketch
+    - Figma
+    - Procreate
