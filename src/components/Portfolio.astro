@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import skills from '../content/sections/skills.yaml';
-const projects = await getCollection('projects');
+const projects = (await getCollection('projects')).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 ---
 
 <!-- Hero Section -->
@@ -72,7 +72,7 @@ const projects = await getCollection('projects');
 <!-- Projects Section -->
 <section id="projects" class="section projects min-height-screen">
 	<div class="container">
-		<h2 class="section-title">Featured Projects</h2>
+		<h2 class="section-title font-retro">Featured Projects</h2>
 		<div class="projects-grid">
 			{projects.map(project => (
 				<div class="project-card" id={project.id}>
@@ -100,9 +100,9 @@ const projects = await getCollection('projects');
 <!-- Contact Section -->
 <section id="contact" class="section contact min-height-screen">
 	<div class="container">
-		<h2 class="section-title">Let's Work Together</h2>
+		<h2 class="section-title font-retro">Let's Work Together</h2>
 		<div class="contact-content">
-			<p class="contact-description">
+			<p class="contact-description font-retro">
 				I'm always interested in new opportunities and collaborations,
 				especially projects that benefit the creator community.
 			</p>
@@ -466,7 +466,7 @@ const projects = await getCollection('projects');
 
 	.projects-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		grid-template-columns: repeat(2, 1fr);
 		gap: 32px;
 		position: relative;
 		z-index: 1;
@@ -621,7 +621,7 @@ const projects = await getCollection('projects');
 	}
 
 	.contact-description {
-		font-size: 20px;
+		font-size: 24px;
 		line-height: 1.6;
 		margin-bottom: 48px;
 		opacity: 0.8;
@@ -716,6 +716,10 @@ const projects = await getCollection('projects');
 		}
 
 		.projects-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.skills-grid {
 			grid-template-columns: 1fr;
 		}
 

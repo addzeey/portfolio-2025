@@ -32,3 +32,11 @@ description: A list of my current tech stack, hardware, and favorite tools for d
 - **Audio Interface:** RØDECaster Duo
 - **Microphone:** RØDE Procaster
 - **Alerts/Interactivity:** streamelements, custom solutions built by me
+
+## Portfolio Site Stack
+
+- **Framework:** Astro
+- **Hosting:** Cloudflare Pages
+- **Markdown Content:** Astro Content Collections
+- **Deployment:** GitHub Actions CI/CD
+- **Analytics:** Cloudflare Analytics
