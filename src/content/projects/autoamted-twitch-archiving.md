@@ -6,7 +6,7 @@ links:
   - label: "GitHub Repository"
     url: "https://github.com/addzeey/go-archiver-twitch"
 bannerImage: "/images/projects/twitch-archiving-bot-header.jpg"
-order: 1
+order: 0
 ---
 
 ## Project Brief

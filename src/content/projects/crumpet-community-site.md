@@ -9,7 +9,7 @@ links:
     url: "https://crumpcontest.com/"
   - label: "New Combined VOD & Contest WIP"
     url: "https://crumpet-site.pages.dev/vods"
-order: 2
+order: 1
 ---
 
 ## Project Brief

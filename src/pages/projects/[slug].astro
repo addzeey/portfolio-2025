@@ -1,5 +1,5 @@
 ---
-import { getEntryBySlug, getCollection } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
@@ -24,7 +24,7 @@ const { Content } = await project.render();
       <h1 class="project-title font-retro">{project?.data.title}</h1>
       <div class="project-tags">
         {project?.data.tags && project.data.tags.map(tag => (
-          <span class="tag" key={tag}>{tag}</span>
+          <span class="tag">{tag}</span>
         ))}
       </div>
       <div class="project-links">
@@ -61,7 +61,7 @@ article.project-body {
 }
 .project-header {
     display: flex;
-    postion: relative;
+    position: relative;
 }
 
 .project-body h2 {

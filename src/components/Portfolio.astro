@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
-import skills from '../content/sections/skills.yaml';
+import skillsData from '../content/sections/skills.yaml';
+import type { Skills, SkillCategory } from '../types/skills';
 const projects = (await getCollection('projects')).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+const skills = skillsData as Skills;
 ---
 
 <!-- Hero Section -->
@@ -52,12 +54,12 @@ const projects = (await getCollection('projects')).sort((a, b) => (a.data.order 
 	<div class="container">
 		<h2 class="section-title font-retro">Skills & Technologies</h2>
 		<div class="skills-grid">
-			{skills.map(category => (
-				<div class="skill-category" key={category.category}>
+			{skills.map((category: SkillCategory) => (
+				<div class="skill-category">
 					<h3 class="font-retro"><i class={`fa-solid ${category.icon}`}></i> {category.category}</h3>
 					<div class="skill-tags">
-						{category.skills.map(skill => (
-							<span class="skill-tag" key={skill}>{skill}</span>
+						{category.skills.map((skill: string) => (
+							<span class="skill-tag">{skill}</span>
 						))}
 					</div>
 				</div>
@@ -72,7 +74,7 @@ const projects = (await getCollection('projects')).sort((a, b) => (a.data.order 
 <!-- Projects Section -->
 <section id="projects" class="section projects min-height-screen">
 	<div class="container">
-		<h2 class="section-title font-retro">Featured Projects</h2>
+		<h2 class="section-title font-retro">Featured Projects & Work</h2>
 		<div class="projects-grid">
 			{projects.map(project => (
 				<div class="project-card" id={project.id}>
@@ -689,7 +691,10 @@ const projects = (await getCollection('projects')).sort((a, b) => (a.data.order 
 		}
 
 		.hero-title {
-			font-size: 42px;
+			font-size: 32px;
+		}
+		.hero-content .highlight-text {
+			font-size: 30px;
 		}
 
 		.hero-description {
@@ -718,7 +723,13 @@ const projects = (await getCollection('projects')).sort((a, b) => (a.data.order 
 		.projects-grid {
 			grid-template-columns: 1fr;
 		}
-
+		.skill-category {
+			padding: 20px;
+		}
+		.skill-category .skill-tag {
+			font-size: 10px;
+			font-weight: 700;
+		}
 		.skills-grid {
 			grid-template-columns: 1fr;
 		}
@@ -732,6 +743,13 @@ const projects = (await getCollection('projects')).sort((a, b) => (a.data.order 
 			width: 100%;
 			max-width: 200px;
 			justify-content: center;
+		}
+		.absolute-cta {
+			width: 100%;
+		}
+		.project-title {
+			font-size: 42px !important;
+			line-height: 100%;
 		}
 	}
 

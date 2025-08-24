@@ -14,6 +14,8 @@ const projects = defineCollection({
 			)
 			.optional(),
 		order: z.number().optional(),
+		// Allow optional banner image used by project pages
+		bannerImage: z.string().optional(),
 	}),
 });
 
