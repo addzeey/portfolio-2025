@@ -8,7 +8,7 @@ links:
   - label: "Contest Standalone"
     url: "https://crumpcontest.com/"
   - label: "New Combined VOD & Contest WIP"
-    url: "https://crumpet-site.pages.dev/vods"
+    url: "https://crump.gg"
 order: 1
 ---
 

@@ -3,8 +3,8 @@ title: "Automated Twitch Archiving"
 description: "A Go application for automated Twitch VOD and chat archiving. Records, processes, and uploads streams with robust error handling, notifications, and cloud integration."
 tags: ["Go", "Twitch API", "Supabase", "Streamlink", "FFmpeg", "Docker", "Webhook", "Cloudflare R2", "Automation"]
 links:
-  - label: "GitHub Repository"
-    url: "https://github.com/addzeey/go-archiver-twitch"
+  - label: "Vod Website"
+    url: "https://crump.gg"
 bannerImage: "/images/projects/twitch-archiving-bot-header.jpg"
 order: 0
 ---
