@@ -1,98 +1,174 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import Layout from "../../layouts/Layout.astro";
+import { getProjects } from "../../lib/projects";
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map(project => ({
-    params: { slug: project.slug },
-    props: { project }
-  }));
+	const projects = await getProjects();
+	return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
 }
 
 const { project } = Astro.props;
-const { Content } = await project.render();
+const allProjects = await getProjects();
+const projectIndex = allProjects.findIndex(({ slug }) => slug === project.slug);
+const previousProject = projectIndex > 0 ? allProjects[projectIndex - 1] : allProjects.at(-1);
+const nextProject = projectIndex < allProjects.length - 1 ? allProjects[projectIndex + 1] : allProjects[0];
+const { Content, headings } = await project.render();
+const tocHeadings = headings.filter(({ depth }) => depth === 2);
+const relatedProject = project.data.relatedProjects?.[0]
+	? allProjects.find(({ slug }) => slug === project.data.relatedProjects?.[0])
+	: nextProject;
+const externalLinks = project.data.links?.filter(({ url }) => !url.startsWith("/")) ?? [];
+const bannerImage = project.data.bannerImage && existsSync(join(process.cwd(), "public", project.data.bannerImage))
+	? project.data.bannerImage
+	: undefined;
 ---
-<Layout title={project?.data.title || 'Project'}>
-  <section class="section project-detail">
-    <div class="container">
-      <div class="project-header">
-        {project?.data.bannerImage && (
-          <img src={project.data.bannerImage} alt={project.data.title + ' header image'} class="project-header-image" />
-        )}
-      </div>
-      <h1 class="project-title font-retro">{project?.data.title}</h1>
-      <div class="project-tags">
-        {project?.data.tags && project.data.tags.map(tag => (
-          <span class="tag">{tag}</span>
-        ))}
-      </div>
-      <div class="project-links">
-        Links: 
-        {project?.data.links && project.data.links.map(link => (
-          <a href={link.url} target="_blank" class="project-link">{link.label}</a>
-        ))}
-      </div>
-      <p class="project-desc">{project?.data.description}</p>
-      <article class="project-body">
-        <Content />
-      </article>
-    </div>
-  </section>
+
+<Layout title={`${project.data.title} | Adam Ashdown`} description={project.data.description} image={bannerImage}>
+	<div class="project-page">
+		<div class="container">
+			<a class="back-link" href="/projects"><span aria-hidden="true">←</span> Back to projects</a>
+			<section class="project-hero" aria-labelledby="project-title">
+				<div class="project-intro">
+					<span class="number-badge">{String(projectIndex + 1).padStart(2, "0")}</span>
+					<h1 id="project-title">{project.data.title}</h1>
+					<ul class="tag-list" aria-label="Technologies">
+						{project.data.tags?.map((tag) => <li class="tag">{tag}</li>)}
+					</ul>
+					<p>{project.data.description}</p>
+					{externalLinks.length > 0 && (
+						<div class="project-actions">
+							{externalLinks.slice(0, 2).map((link, index) => (
+								<a class:list={["button", { "button--secondary": index > 0 }]} href={link.url} target="_blank" rel="noreferrer">{link.label} <span aria-hidden="true">↗</span></a>
+							))}
+						</div>
+					)}
+				</div>
+				<aside class="project-meta brutal-panel" aria-label="Project metadata">
+					{project.data.status && <div><dt>Status</dt><dd>{project.data.status}</dd></div>}
+					{project.data.projectType && <div><dt>Project type</dt><dd>{project.data.projectType}</dd></div>}
+					<div><dt>Primary stack</dt><dd>{project.data.tags?.slice(0, 4).join(", ") ?? "See case study"}</dd></div>
+					<div><dt>Resources</dt><dd>{project.data.links?.length ?? 0} linked {project.data.links?.length === 1 ? "resource" : "resources"}</dd></div>
+				</aside>
+			</section>
+
+			<section class:list={["project-visual", { "project-visual--text": !bannerImage }]} aria-label="Project visual">
+				{bannerImage ? (
+					<img src={bannerImage} alt={project.data.bannerAlt ?? `${project.data.title} project interface`} width="1600" height="800" loading="eager" />
+				) : (
+					<>
+						<span>{String(projectIndex + 1).padStart(2, "0")} / CASE STUDY</span>
+						<strong>{project.data.title}</strong>
+						<small>{project.data.tags?.slice(0, 3).join("  +  ")}</small>
+					</>
+				)}
+			</section>
+
+			{project.data.highlights && project.data.highlights.length > 0 && (
+				<section class="snapshot" aria-labelledby="snapshot-title">
+					<h2 id="snapshot-title" class="section-heading">At a glance</h2>
+					<div class="snapshot-grid">
+						{project.data.highlights.map((highlight, index) => (
+							<article class="snapshot-card brutal-panel"><span>{String(index + 1).padStart(2, "0")}</span><h3>{highlight.title}</h3><p>{highlight.description}</p></article>
+						))}
+					</div>
+				</section>
+			)}
+
+			<div class="content-layout">
+				<aside class="toc brutal-panel">
+					<h2>On this page</h2>
+					<nav aria-label="Table of contents">
+						{tocHeadings.map((heading, index) => <a class:list={{ active: index === 0 }} href={`#${heading.slug}`}>{heading.text}</a>)}
+					</nav>
+				</aside>
+				<div>
+					<article class="project-content brutal-panel"><Content /></article>
+					{relatedProject && relatedProject.slug !== project.slug && (
+						<aside class="related-card brutal-panel">
+							<div><span>Related work</span><h2>{relatedProject.data.title}</h2><p>{relatedProject.data.description}</p></div>
+							<a class="button button--secondary" href={`/projects/${relatedProject.slug}`}>View project <span aria-hidden="true">→</span></a>
+						</aside>
+					)}
+				</div>
+			</div>
+
+			<nav class="project-navigation" aria-label="Project navigation">
+				<a href={`/projects/${previousProject?.slug}`}><small>Previous project</small><span>← {previousProject?.data.title}</span></a>
+				<a class="all-projects" href="/projects"><small>Browse</small><span>All projects</span></a>
+				<a href={`/projects/${nextProject?.slug}`}><small>Next project</small><span>{nextProject?.data.title} →</span></a>
+			</nav>
+		</div>
+	</div>
 </Layout>
 
 <style>
-.project-title {
-  font-size: 64px;
-  margin-bottom: 16px;
-}
-.project-desc {
-  font-size: 18px;
-  line-height: 1.6;
-  padding: 20px 0px;
-}
-article.project-body {
-    padding: 30px 0px;
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-}
-.project-header {
-    display: flex;
-    position: relative;
-}
-
-.project-body h2 {
-    font-size: 32px;
-    margin: 0;
-    font-weight: 600;
-}
-img.project-header-image {
-    width: 100%;
-    min-width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 4px;
-    box-shadow: 9px 7px 1000px 100px rgb(178 31 102 / 22%);
-    border: 1px solid rgb(178 31 102 / 36%);
-}
-.project-links {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-weight: 600;
-}
-a.project-link{
-  color: #ffffff;
-  text-transform: uppercase;
-}
-a.project-link:hover {
-  color: var(--highlight);
-  text-decoration: underline;
-}
-article.project-body ul {
-    padding-left: 20px;
-}
+	.project-page { padding: 2rem 0 var(--section-space); }
+	.back-link { display: inline-flex; min-height: 44px; align-items: center; gap: 0.5rem; color: var(--colour-text-soft); font-family: var(--font-display); font-size: 1.05rem; text-decoration: none; text-transform: uppercase; }
+	.back-link:hover { color: var(--colour-pink-bright); text-decoration: underline; text-underline-offset: 5px; }
+	.project-hero { display: grid; grid-template-columns: minmax(0, 8fr) minmax(280px, 4fr); align-items: center; gap: clamp(2rem, 6vw, 5rem); padding: 1.5rem 0 3.5rem; }
+	.project-intro h1 { max-width: 16ch; margin: 1rem 0; font-size: clamp(3rem, 6vw, 5.2rem); font-weight: 400; line-height: 0.88; text-transform: uppercase; }
+	.project-intro > p { max-width: 68ch; margin: 1.35rem 0; color: var(--colour-text-soft); }
+	.project-actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+	.project-meta { margin: 0; padding: 1.5rem; border-color: var(--colour-border); box-shadow: var(--shadow-lg); }
+	.project-meta div + div { margin-top: 1.15rem; }
+	.project-meta dt { color: var(--colour-pink-bright); font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.05em; text-transform: uppercase; }
+	.project-meta dd { margin: 0.2rem 0 0; color: var(--colour-text-soft); font-size: 0.93rem; line-height: 1.45; }
+	.project-visual { aspect-ratio: 16 / 8; overflow: hidden; border: 2px solid var(--colour-pink); background: var(--colour-surface-inset); box-shadow: var(--shadow-md); }
+	.project-visual img { width: 100%; height: 100%; object-fit: cover; }
+	.project-visual--text { position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(1.5rem, 5vw, 4rem); background: var(--colour-surface); }
+	.project-visual--text::before { position: absolute; inset: clamp(0.75rem, 2vw, 1.5rem); border: 1px solid var(--colour-border-muted); content: ""; pointer-events: none; }
+	.project-visual--text span, .project-visual--text small { color: var(--colour-pink-bright); font-family: var(--font-mono); font-size: clamp(0.7rem, 1.5vw, 1rem); text-transform: uppercase; }
+	.project-visual--text > * { position: relative; z-index: 1; }
+	.project-visual--text strong { max-width: 18ch; margin: 0.4rem 0 0.9rem; color: var(--colour-text); font-family: var(--font-display); font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 400; line-height: 0.85; text-transform: uppercase; }
+	.snapshot { padding-block: clamp(3rem, 6vw, 4.5rem); }
+	.snapshot-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--grid-gap); }
+	.snapshot-card { min-height: 170px; padding: 1rem; border-color: var(--colour-pink); }
+	.snapshot-card > span { color: var(--colour-pink-bright); font-family: var(--font-mono); font-weight: 600; }
+	.snapshot-card h3 { margin: 1rem 0 0.45rem; font-size: 1.15rem; font-weight: 400; line-height: 1; text-transform: uppercase; }
+	.snapshot-card p { margin: 0; color: var(--colour-text-soft); font-size: 0.88rem; line-height: 1.5; }
+	.content-layout { display: grid; grid-template-columns: minmax(190px, 3fr) minmax(0, 9fr); align-items: start; gap: var(--grid-gap); }
+	.toc { position: sticky; top: 92px; overflow: hidden; }
+	.toc h2 { margin: 0; padding: 1rem; color: var(--colour-pink-bright); font-size: 1.1rem; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; }
+	.toc nav { display: grid; }
+	.toc a { min-height: 44px; padding: 0.65rem 1rem; border-top: 1px solid var(--colour-border-muted); color: var(--colour-text-soft); font-size: 0.85rem; text-decoration: none; }
+	.toc a:hover, .toc a.active { border-left: 4px solid var(--colour-pink); background: var(--colour-surface-raised); color: var(--colour-text); }
+	.project-content { padding: clamp(1.4rem, 4vw, 2.5rem); background: var(--colour-surface-inset); }
+	.project-content :global(> *:not(hr)) { max-width: 70ch; }
+	.project-content :global(h2) { margin: 2.4rem 0 0.8rem; color: var(--colour-text); font-size: clamp(1.65rem, 3vw, 2.15rem); font-weight: 400; line-height: 1; text-transform: uppercase; }
+	.project-content :global(h2:first-child) { margin-top: 0; }
+	.project-content :global(h3) { margin: 1.8rem 0 0.6rem; color: var(--colour-pink-bright); font-size: 1.4rem; font-weight: 400; }
+	.project-content :global(p), .project-content :global(li) { color: var(--colour-text-soft); }
+	.project-content :global(ul), .project-content :global(ol) { padding-left: 1.35rem; }
+	.project-content :global(li + li) { margin-top: 0.55rem; }
+	.project-content :global(a) { color: var(--colour-pink-bright); text-underline-offset: 4px; }
+	.project-content :global(hr) { margin: 2rem 0; border: 0; border-top: 1px solid var(--colour-border-muted); }
+	.related-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1.5rem; margin-top: var(--grid-gap); padding: 1.25rem; border-color: var(--colour-pink); box-shadow: var(--shadow-sm); }
+	.related-card span { color: var(--colour-pink-bright); font-family: var(--font-display); text-transform: uppercase; }
+	.related-card h2 { margin: 0.25rem 0; font-size: 1.5rem; font-weight: 400; }
+	.related-card p { max-width: 62ch; margin: 0; color: var(--colour-text-soft); font-size: 0.9rem; }
+	.project-navigation { display: grid; grid-template-columns: 1fr 120px 1fr; margin-top: 2.5rem; border: 2px solid var(--colour-pink); }
+	.project-navigation a { display: flex; min-height: 72px; flex-direction: column; justify-content: center; padding: 0.7rem 1rem; font-family: var(--font-display); font-size: 1.05rem; line-height: 1.1; text-decoration: none; text-transform: uppercase; }
+	.project-navigation a:last-child { align-items: flex-end; text-align: right; }
+	.project-navigation a:hover { background: var(--colour-surface-raised); color: var(--colour-pink-bright); }
+	.project-navigation small { color: var(--colour-text-muted); font-family: var(--font-mono); font-size: 0.65rem; }
+	.project-navigation .all-projects { align-items: center; border-right: 1px solid var(--colour-pink); border-left: 1px solid var(--colour-pink); text-align: center; }
+	@media (max-width: 1000px) {
+		.project-hero { grid-template-columns: 1fr; }
+		.project-meta { max-width: 620px; }
+		.snapshot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		.content-layout { grid-template-columns: 1fr; }
+		.toc { position: static; }
+		.toc nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	}
+	@media (max-width: 620px) {
+		.project-visual { aspect-ratio: 4 / 3; }
+		.snapshot-grid { grid-template-columns: 1fr; }
+		.toc nav { grid-template-columns: 1fr; }
+		.related-card { grid-template-columns: 1fr; }
+		.project-navigation { grid-template-columns: 1fr 100px; }
+		.project-navigation a:last-child { grid-column: 1 / -1; align-items: flex-start; border-top: 1px solid var(--colour-pink); text-align: left; }
+		.project-navigation .all-projects { border-right: 0; }
+	}
 </style>

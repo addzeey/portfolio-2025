@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	project: CollectionEntry<"projects">;
+	number: number;
+	layout?: "featured" | "secondary" | "standard" | "index";
+}
+
+const { project, number, layout = "standard" } = Astro.props;
+---
+
+<article class:list={["project-card", "brutal-panel", `project-card--${layout}`]}>
+	<div class="project-card__top">
+		<span class="number-badge">{String(number).padStart(2, "0")}</span>
+		{project.data.featured && <span class="featured-label">Featured project</span>}
+		{!project.data.featured && project.data.status && <span class="status-label">{project.data.status}</span>}
+	</div>
+	<h3><a href={`/projects/${project.slug}`}>{project.data.title}</a></h3>
+	<p>{project.data.description}</p>
+	<ul class="tag-list" aria-label="Technologies">
+		{project.data.tags?.slice(0, 4).map((tag) => <li class="tag">{tag}</li>)}
+	</ul>
+	<a class="project-action" href={`/projects/${project.slug}`}>View project <span aria-hidden="true">→</span></a>
+</article>
+
+<style>
+	.project-card { display: flex; min-height: 350px; flex-direction: column; padding: clamp(1.2rem, 3vw, 1.7rem); border-color: var(--colour-pink); box-shadow: var(--shadow-md); transition: transform var(--duration-fast) var(--ease-mechanical), box-shadow var(--duration-fast) var(--ease-mechanical); }
+	.project-card--featured { grid-column: span 7; }
+	.project-card--secondary { grid-column: span 5; }
+	.project-card--standard, .project-card--index { grid-column: span 6; }
+	.project-card:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--colour-purple); }
+	.project-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+	.featured-label, .status-label { color: var(--colour-pink-bright); font-family: var(--font-display); font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; }
+	h3 { margin: 1.2rem 0 0.65rem; font-size: clamp(1.55rem, 2.5vw, 2rem); font-weight: 400; line-height: 1.05; }
+	h3 a { text-decoration: none; }
+	h3 a:hover { color: var(--colour-pink-bright); text-decoration: underline; text-underline-offset: 5px; }
+	p { color: var(--colour-text-soft); font-size: 0.98rem; line-height: 1.6; }
+	.tag-list { margin-top: auto; padding-top: 1rem; }
+	.project-action { display: flex; min-height: 46px; align-items: center; justify-content: space-between; margin-top: 1rem; padding: 0.55rem 0.75rem; border: 1px solid var(--colour-pink-bright); font-family: var(--font-display); font-size: 1.05rem; text-decoration: none; text-transform: uppercase; }
+	.project-action:hover { background: var(--colour-pink); color: #fff; }
+	@media (min-width: 768px) and (max-width: 1099px) {
+		.project-card--featured, .project-card--secondary, .project-card--standard, .project-card--index { grid-column: span 6; }
+	}
+	@media (max-width: 767px) {
+		.project-card, .project-card--featured, .project-card--secondary, .project-card--standard, .project-card--index { grid-column: auto; min-height: 0; }
+	}
+</style>

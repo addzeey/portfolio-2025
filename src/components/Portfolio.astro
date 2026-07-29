@@ -1,791 +1,399 @@
 ---
-import { getCollection } from 'astro:content';
-import skillsData from '../content/sections/skills.yaml';
-import type { Skills, SkillCategory } from '../types/skills';
-const projects = (await getCollection('projects')).sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
-const skills = skillsData as Skills;
+import ProjectCard from "./projects/ProjectCard.astro";
+import { getHomepageProjects } from "../lib/projects";
+
+const projects = await getHomepageProjects();
+
+const capabilities = [
+    {
+        icon: "</>",
+        title: "Product & Frontend",
+        description:
+            "Interfaces built with close attention to layout, interaction and readability.",
+        technologies: "React · Vue · TypeScript · Astro",
+    },
+    {
+        icon: "DB",
+        title: "Backend & Systems",
+        description:
+            "APIs, service integrations and data pipelines for web applications.",
+        technologies: ".NET · Go · Node.js · SQL",
+    },
+    {
+        icon: "CI",
+        title: "DevOps & Infrastructure",
+        description:
+            "CI/CD and cloud infrastructure for deploying and operating web applications.",
+        technologies: "Cloudflare · Azure · Docker · CI/CD",
+    },
+    {
+        icon: "{}",
+        title: "Tools & Automation",
+        description:
+            "Automation for creator workflows, media processing and development tasks.",
+        technologies: "APIs · Webhooks · FFmpeg · Automation",
+    },
+];
 ---
 
-<!-- Hero Section -->
-<section id="home" class="hero min-height-screen">
-	<div class="container">
-		<div class="hero-content font-retro">
-			<h1 class="hero-title fade-in-up">
-				Full Stack Developer,  
-				
-			</h1>
-			<h2 class="highlight-text fade-in-up">Engineering Digital & Creative Solutions</h2>
-			<p class="hero-description fade-in-up-delay-1">
-				From web applications to creator-driven tools, I craft systems that solve real problems and support meaningful, interactive experiences.
-			</p>
-			<div class="hero-actions fade-in-up-delay-2">
-				<a href="#projects" class="btn btn-primary">Explore My Work</a>
-				<a href="#contact" class="btn btn-secondary">Connect with me</a>
-			</div>
-		</div>
-		<a href="#about" class="cta-link absolute-cta font-retro">Who am I?<i class="fa-solid fa-angle-down"></i></a>
-	</div>
+<section id="about" class="hero">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">Full-stack developer</p>
+            <h1>I BUILD<br /><span>DIGITAL</span><br /><span>SOLUTIONS</span><br />THAT WORK.</h1>
+            <p class="hero-description">
+                Full-stack developer working across interfaces, backend services
+                and cloud infrastructure, with a focus on streaming and community platforms.
+            </p>
+            <div class="hero-actions">
+                <a class="button" href="#projects"
+                    >View my work <span aria-hidden="true">→</span></a
+                >
+                <a class="button button--secondary" href="#contact"
+                    >Get in touch</a
+                >
+            </div>
+        </div>
+        <aside class="status-card brutal-panel" aria-label="Development focus">
+            <div>
+                <span>Work</span><p>Streaming tools, community sites and backend services.</p>
+            </div>
+            <div>
+                <span>Specialisms</span><ul>
+                    <li>Platform integrations</li><li>Media workflows</li><li>Full-stack delivery</li>
+                </ul>
+            </div>
+            <div>
+                <span>Approach</span><p>I work across the interface and the systems behind it.</p>
+            </div>
+        </aside>
+    </div>
 </section>
 
-<!-- About Section -->
-<section id="about" class="section about min-height-screen">
-	<div class="container">
-		<h2 class="section-title font-retro">About Me</h2>
-		<div class="about-content">
-			<div class="about-text font-retro">
-				<p>
-					As a full stack developer with a design-focused mindset, 
-					I build digital tools that simplify and enhance the content creation process. 
-					From interactive features to backend systems, 
-					my work supports creators in connecting with their audience and bringing ideas to life.
-				</p>
-				<p>
-					I care deeply about building solutions that reduce friction, 
-					boost creativity, and make it easier to do great work.
-				</p>
-			</div>
-		</div>
-		<a href="#skills" class="cta-link absolute-cta font-retro">See My Skills <i class="fa-solid fa-angle-down"></i></a>
-	</div>
+<section id="projects" class="page-section projects-section">
+    <div class="container">
+        <div class="section-heading-row">
+            <h2 class="section-heading">Selected work</h2>
+            <a href="/projects">View all projects <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="projects-grid">
+            {
+                projects.map((project, index) => (
+                    <ProjectCard
+                        project={project}
+                        number={index + 1}
+                        layout={index === 0 ? "featured" : index === 1 ? "secondary" : "standard"}
+                    />
+                ))
+            }
+        </div>
+    </div>
 </section>
 
-<!-- Skills Section -->
-<section id="skills" class="section skills min-height-screen">
-	<div class="container">
-		<h2 class="section-title font-retro">Skills & Technologies</h2>
-		<div class="skills-grid">
-			{skills.map((category: SkillCategory) => (
-				<div class="skill-category">
-					<h3 class="font-retro"><i class={`fa-solid ${category.icon}`}></i> {category.category}</h3>
-					<div class="skill-tags">
-						{category.skills.map((skill: string) => (
-							<span class="skill-tag">{skill}</span>
-						))}
-					</div>
-				</div>
-			))}
-		</div>
-		<div>
-			<a href="#projects" class="cta-link absolute-cta font-retro">View My Projects <i class="fa-solid fa-angle-down"></i></a>
-		</div>
-	</div>
+<section id="capabilities" class="page-section capabilities-section">
+    <div class="container">
+        <h2 class="section-heading">What I do</h2>
+        <div class="capabilities-grid">
+            {
+                capabilities.map((capability) => (
+                    <article class="capability-card brutal-panel">
+                        <span class="capability-icon" aria-hidden="true">
+                            {capability.icon}
+                        </span>
+                        <h3>{capability.title}</h3>
+                        <p>{capability.description}</p>
+                        <small>{capability.technologies}</small>
+                    </article>
+                ))
+            }
+            <article class="capability-card integration-card brutal-panel">
+                <span class="capability-icon" aria-hidden="true">↔</span>
+                <div>
+                    <h3>Platform & API Integrations</h3>
+                    <small
+                        >Twitch API · Extensions · EventSub · OAuth · Webhooks ·
+                        Media pipelines</small
+                    >
+                </div>
+                <p>
+                    I connect Twitch and other APIs to authentication, events,
+                    webhooks and media-processing workflows.
+                </p>
+            </article>
+        </div>
+    </div>
 </section>
 
-<!-- Projects Section -->
-<section id="projects" class="section projects min-height-screen">
-	<div class="container">
-		<h2 class="section-title font-retro">Featured Projects & Work</h2>
-		<div class="projects-grid">
-			{projects.map(project => (
-				<div class="project-card" id={project.id}>
-						<div class="project-header">
-							<a href={`/projects/${project.slug}`} style="text-decoration: none; color: inherit;">
-								<h3 class="font-retro">{project.data.title}</h3>
-							</a>
-							<div class="project-tags">
-								{project.data.tags && project.data.tags.map(tag => (
-									<span class="tag">{tag}</span>
-								))}
-							</div>
-						</div>
-						<p class="project-description font-retro">{project.data.description}</p>
-					<div class="project-links font-retro">
-						<a href={`/projects/${project.slug}`} class="project-link">View Project</a>
-					</div>
-				</div>
-			))}
-		</div>
-		<a href="#contact" class="cta-link absolute-cta font-retro">Contact Me <i class="fa-solid fa-angle-down"></i></a>
-	</div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="section contact min-height-screen">
-	<div class="container">
-		<h2 class="section-title font-retro">Let's Work Together</h2>
-		<div class="contact-content">
-			<p class="contact-description font-retro">
-				I'm always interested in new opportunities and collaborations,
-				especially projects that benefit the creator community.
-			</p>
-			<div class="contact-links">
-				<a href="mailto:info@aashdown.co.uk" target="_blank" class="contact-link">
-					<span>Email</span>
-				</a>
-				<a href="https://github.com/addzeey" target="_blank" class="contact-link">
-					<span>GitHub</span>
-				</a>
-				<a href="https://www.linkedin.com/in/adamac" target="_blank" class="contact-link">
-					<span>LinkedIn</span>
-				</a>
-				<a href="https://twitter.com/addzeeyy" target="_blank" class="contact-link">
-					<span>Twitter</span>
-				</a>
-			</div>
-		</div>
-	</div>
+<section id="contact" class="contact-section">
+    <div class="container">
+        <div class="contact-banner">
+            <h2>HAVE A PROJECT<br />IN MIND?</h2>
+            <p>Tell me what you’re building and where you need help.</p>
+            <a
+                class="button button--secondary"
+                href="mailto:info@aashdown.co.uk"
+                >Let’s talk <span aria-hidden="true">→</span></a
+            >
+        </div>
+    </div>
 </section>
 
 <style>
-	/* Removed navigation/header CSS, as it is now in Layout.astro */
-
-	/* Animation Utility Classes */
-	.fade-in-up {
-		animation: fadeInUp 0.8s ease-out;
-	}
-	.fade-in-up-delay-1 {
-		animation: fadeInUp 0.8s ease-out 0.2s both;
-	}
-	.fade-in-up-delay-2 {
-		animation: fadeInUp 0.8s ease-out 0.4s both;
-	}
-	.shimmer {
-		animation: shimmer 2s infinite linear;
-		background: linear-gradient(90deg, #fff, #f3ec78, #fff);
-		background-size: 200% 200%;
-	}
-
-	@keyframes shimmer {
-		0%,
-		100% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-	}
-
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(30px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	/* Hero Section */
-	.hero {
-		padding: 200px 0 160px;
-		background: var(--bg-darker);
-		position: relative;
-		overflow: hidden;
-		color: white;
-		min-height: 100vh;
-		display: flex;
-		align-items: center;
-	}
-
-	.hero::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: radial-gradient(
-				circle at 20% 80%,
-				rgba(56, 20, 96, 0.3) 0%,
-				transparent 70%
-			),
-			radial-gradient(
-				circle at 80% 20%,
-				rgba(178, 31, 102, 0.2) 0%,
-				transparent 70%
-			),
-			radial-gradient(
-				circle at 50% 50%,
-				rgba(56, 20, 96, 0.1) 0%,
-				transparent 80%
-			);
-		pointer-events: none;
-	}
-
-	.hero-content {
-		text-align: center;
-		max-width: 800px;
-		margin: 0 auto;
-		position: relative;
-		z-index: 1;
-	}
-
-	.hero-title {
-		font-size: 64px;
-		font-weight: 700;
-		margin: 0px;
-		line-height: 1.2;
-		/* text-transform: uppercase; */
-	}
-
-	.highlight-text {
-		color: var(--accent);
-		font-size: 48px;
-		margin: 0px;
-	}
-	
-
-	.hero-description {
-		font-size: 24px;
-		line-height: 1.6;
-		margin-bottom: 48px;
-		opacity: 0.8;
-		max-width: 800px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.hero-actions {
-		display: flex;
-		gap: 16px;
-		justify-content: center;
-		flex-wrap: wrap;
-		font-size: 20px;
-		letter-spacing: 1px;
-		text-transform: uppercase;
-	}
-
-	/* About Section */
-	.about {
-		background: var(--bg-dark);
-		position: relative;
-		display: flex;
-		align-items: center;
-	}
-
-	.about::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: radial-gradient(
-				circle at 30% 70%,
-				rgba(56, 20, 96, 0.2) 0%,
-				transparent 70%
-			),
-			radial-gradient(
-				circle at 70% 30%,
-				rgba(178, 31, 102, 0.1) 0%,
-				transparent 70%
-			);
-		pointer-events: none;
-	}
-
-	.section-title {
-		font-size: 48px;
-		font-weight: 700;
-		text-align: center;
-		margin-bottom: 80px;
-		background: linear-gradient(45deg, var(--accent), var(--highlight));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		position: relative;
-	}
-
-	.section-title::after {
-		content: "";
-		position: absolute;
-		bottom: -10px;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 60px;
-		height: 3px;
-		background: linear-gradient(90deg, var(--accent), var(--primary));
-		border-radius: 2px;
-	}
-
-	.about-text {
-		max-width: 800px;
-		margin: 0 auto;
-		font-size: 24px;
-		line-height: 1.7;
-		position: relative;
-		z-index: 1;
-	}
-
-	.about-text p {
-		margin-bottom: 32px;
-		color: rgba(224, 224, 224, 0.8);
-		transition: color 0.3s ease;
-	}
-
-	.about-text p:hover {
-		color: var(--text-light);
-	}
-
-	/* Skills Section */
-	.skills {
-		background: var(--bg-darker);
-		position: relative;
-		display: flex;
-		align-items: center;
-	}
-
-	.skills::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: radial-gradient(
-				circle at 80% 20%,
-				rgba(178, 31, 102, 0.15) 0%,
-				transparent 70%
-			),
-			radial-gradient(
-				circle at 20% 80%,
-				rgba(56, 20, 96, 0.1) 0%,
-				transparent 70%
-			);
-		pointer-events: none;
-	}
-
-	.skills-grid {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 40px;
-		position: relative;
-		z-index: 1;
-	}
-
-	.skill-category {
-		padding: 30px;
-		border-radius: 16px;
-		border: 1px solid rgba(56, 20, 96, 0.3);
-		transition: all 0.3s ease;
-		position: relative;
-		overflow: hidden;
-		backdrop-filter: blur(10px);
-		background: linear-gradient(to bottom right, #9146ff20, #7f7f7f10);
-		/* border: 1px solid #9146ff50; */
-	}
-
-	.skill-category::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: linear-gradient(
-			135deg,
-			rgba(178, 31, 102, 0.1) 0%,
-			transparent 50%
-		);
-		opacity: 0;
-		transition: opacity 0.3s ease;
-	}
-
-	.skill-category:hover {
-		transform: translateY(-8px);
-		box-shadow: 0 15px 35px rgba(178, 31, 102, 0.4);
-		border-color: rgba(178, 31, 102, 0.5);
-	}
-
-	.skill-category:hover::before {
-		opacity: 1;
-	}
-
-	.skill-category h3 {
-		font-size: 26px;
-		font-weight: 600;
-		margin-bottom: 20px;
-		background: linear-gradient(45deg, var(--accent), var(--highlight));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		position: relative;
-		z-index: 1;
-	}
-
-	.skill-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 12px;
-		position: relative;
-		z-index: 1;
-	}
-
-	.skill-tag {
-		background: rgba(56, 20, 96, 0.8);
-		color: white;
-		padding: 8px 16px;
-		border-radius: 20px;
-		font-size: 12px;
-		font-weight: 500;
-		border: 1px solid rgba(178, 31, 102, 0.3);
-		transition: all 0.3s ease;
-		position: relative;
-		overflow: hidden;
-		cursor: pointer;
-	}
-
-	.skill-tag:hover {
-		background: linear-gradient(45deg, var(--accent), var(--primary));
-		color: white;
-		transform: translateY(-3px) scale(1.05);
-		box-shadow: 0 15px 35px rgb(178 31 102 / 14%);
-		border-color: rgb(178 31 102 / 32%);
-	}
-
-	.skill-tag:hover::before {
-		left: 100%;
-	}
-
-	/* Projects Section */
-	.projects {
-		background: var(--bg-dark);
-		position: relative;
-		min-height: 100vh;
-		display: flex;
-		align-items: center;
-	}
-
-	.projects::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: radial-gradient(
-				circle at 50% 20%,
-				rgba(56, 20, 96, 0.2) 0%,
-				transparent 70%
-			),
-			radial-gradient(
-				circle at 20% 80%,
-				rgba(178, 31, 102, 0.15) 0%,
-				transparent 70%
-			);
-		pointer-events: none;
-	}
-
-	.projects-grid {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 32px;
-		position: relative;
-		z-index: 1;
-	}
-
-	.project-card {
-		border-radius: 12px;
-		padding: 32px;
-		border: 1px solid rgba(56, 20, 96, 0.3);
-		transition: all 0.4s ease;
-		position: relative;
-		overflow: hidden;
-		backdrop-filter: blur(10px);
-		background: linear-gradient(to bottom right, #9146ff20, #7f7f7f10);
-	}
-
-	.project-card::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: linear-gradient(
-			135deg,
-			rgba(178, 31, 102, 0.15) 0%,
-			transparent 50%
-		);
-		opacity: 0;
-		transition: opacity 0.4s ease;
-	}
-
-	.project-card:hover {
-		transform: translateY(-12px) scale(1.02);
-		box-shadow: 0 20px 50px rgba(178, 31, 102, 0.5);
-		border-color: rgba(178, 31, 102, 0.6);
-	}
-
-	.project-card:hover::before {
-		opacity: 1;
-	}
-
-	.project-header {
-		margin-bottom: 16px;
-		position: relative;
-		z-index: 1;
-	}
-
-	.project-header h3 {
-		font-size: 24px;
-		font-weight: 600;
-		margin-bottom: 12px;
-		background: linear-gradient(45deg,var(--accent),var(--highlight));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		transition: all 0.3s ease;
-	}
-
-	.project-card:hover .project-header h3 {
-		transform: translateX(5px);
-	}
-
-
-	.project-description {
-		color: rgba(224, 224, 224, 0.7);
-		line-height: 1.6;
-		margin-bottom: 24px;
-		position: relative;
-		z-index: 1;
-		transition: color 0.3s ease;
-	}
-
-	.project-card:hover .project-description {
-		color: rgba(224, 224, 224, 0.9);
-	}
-
-	.project-links {
-		display: flex;
-		gap: 16px;
-		position: relative;
-		z-index: 1;
-	}
-
-	.project-link {
-		background-clip: text;
-		text-decoration: none;
-		font-weight: 600;
-		transition: all 0.3s ease;
-		position: relative;
-		padding: 8px 16px;
-		border-radius: 8px;
-		border: 1px solid #ffffff;
-		color: #ffffff;
-	}
-
-	.project-link:hover {
-		background: linear-gradient(45deg,var(--accent),var(--highlight));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		transform: translateY(-2px);
-		border-color: rgba(178, 31, 102, 0.6);
-	}
-
-	.project-link:hover::before {
-		opacity: 1;
-	}
-
-	/* Contact Section */
-	.contact {
-		background: var(--bg-darker);
-		color: white;
-		position: relative;
-		display: flex;
-		align-items: center;
-	}
-
-	.contact::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: radial-gradient(
-				circle at 50% 50%,
-				rgba(56, 20, 96, 0.2) 0%,
-				transparent 70%
-			),
-			radial-gradient(
-				circle at 80% 80%,
-				rgba(178, 31, 102, 0.1) 0%,
-				transparent 70%
-			);
-		pointer-events: none;
-	}
-
-	.contact .section-title {
-		background: linear-gradient(45deg, var(--accent), var(--primary));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
-	.contact-content {
-		text-align: center;
-		max-width: 600px;
-		margin: 0 auto;
-		position: relative;
-		z-index: 1;
-	}
-
-	.contact-description {
-		font-size: 24px;
-		line-height: 1.6;
-		margin-bottom: 48px;
-		opacity: 0.8;
-		transition: opacity 0.3s ease;
-	}
-
-	.contact-description:hover {
-		opacity: 1;
-	}
-
-	.contact-links {
-		display: flex;
-		justify-content: center;
-		gap: 32px;
-		flex-wrap: wrap;
-	}
-
-	.contact-link {
-		display: flex;
-		align-items: center;
-		padding: 12px 24px;
-		background: rgba(56, 20, 96, 0.8);
-		border-radius: 8px;
-		color: white;
-		text-decoration: none;
-		font-weight: 600;
-		transition: all 0.4s ease;
-		border: 1px solid rgba(178, 31, 102, 0.3);
-		position: relative;
-		overflow: hidden;
-	}
-
-	.contact-link::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(
-			90deg,
-			transparent,
-			rgba(255, 255, 255, 0.2),
-			transparent
-		);
-		transition: left 0.6s ease;
-	}
-
-	.contact-link:hover {
-		background: linear-gradient(45deg, var(--accent), var(--primary));
-		color: white;
-		transform: translateY(-4px) scale(1.05);
-		box-shadow: 0 10px 25px rgba(178, 31, 102, 0.6);
-		border-color: rgba(178, 31, 102, 0.8);
-	}
-
-	.contact-link:hover::before {
-		left: 100%;
-	}
-
-	/* Responsive Design */
-	@media (max-width: 768px) {
-		.nav-links {
-			display: none;
-		}
-
-		.hero-title {
-			font-size: 32px;
-		}
-		.hero-content .highlight-text {
-			font-size: 30px;
-		}
-
-		.hero-description {
-			font-size: 20px;
-		}
-
-		.hero-actions {
-			flex-direction: column;
-			align-items: center;
-		}
-
-		.btn {
-			width: 100%;
-			max-width: 280px;
-			text-align: center;
-		}
-
-		.section-title {
-			font-size: 36px;
-		}
-
-		.about-text {
-			font-size: 18px;
-		}
-
-		.projects-grid {
-			grid-template-columns: 1fr;
-		}
-		.skill-category {
-			padding: 20px;
-		}
-		.skill-category .skill-tag {
-			font-size: 10px;
-			font-weight: 700;
-		}
-		.skills-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.contact-links {
-			flex-direction: column;
-			align-items: center;
-		}
-
-		.contact-link {
-			width: 100%;
-			max-width: 200px;
-			justify-content: center;
-		}
-		.absolute-cta {
-			width: 100%;
-		}
-		.project-title {
-			font-size: 42px !important;
-			line-height: 100%;
-		}
-	}
-
-	.cta-link {
-		margin-top: 32px;
-		display: inline-block;
-		font-size: 18px;
-	}
-	.absolute-cta {
-		position: absolute;
-		bottom: 0px;
-		left: 50%;
-		transform: translateX(-50%) translateY(0);
-		color: white;
-		background: none;
-		padding: 12px 24px;
-		font-size: 26px;
-		border-radius: 8px;
-		text-decoration: none;
-		font-weight: 500;
-		transition: all 0.3s ease;
-		display: inline-flex;
-		flex-direction: column;
-		align-content: center;
-		align-items: center;
-	}
-
-	.absolute-cta:hover {
-		position: absolute;
-		bottom: 0px;
-		left: 50%;
-		transform: translateX(-50%) translateY(-10px) scale(1.05);
-		color: var(--accent);
-		padding: 12px 24px;
-		border-radius: 8px;
-		text-decoration: none;
-		transition: all 0.3s ease;
-	}
+    .hero {
+        padding: clamp(3.5rem, 7vw, 5rem) 0 clamp(4rem, 7vw, 5.5rem);
+        border-bottom: 1px solid var(--colour-border-muted);
+    }
+    .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 7fr) minmax(280px, 4fr);
+        align-items: center;
+        gap: clamp(2.5rem, 7vw, 6.5rem);
+    }
+    .hero h1 {
+        margin: 0;
+        font-size: clamp(4rem, 8vw, 7.3rem);
+        font-weight: 400;
+        letter-spacing: -0.025em;
+        line-height: 0.75;
+        text-transform: uppercase;
+        text-wrap: balance;
+    }
+    .hero h1 span {
+        color: var(--colour-pink-bright);
+    }
+    .hero-description {
+        max-width: 58ch;
+        margin: 1.9rem 0;
+        color: var(--colour-text-soft);
+    }
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .status-card {
+        padding: clamp(1.25rem, 3vw, 1.8rem);
+        border-color: var(--colour-border);
+        box-shadow: var(--shadow-lg);
+    }
+    .status-card > div + div {
+        margin-top: 1.25rem;
+    }
+    .status-card span {
+        color: var(--colour-pink-bright);
+        font-family: var(--font-display);
+        font-size: 1.12rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+    .status-card p {
+        margin: 0.25rem 0 0;
+        color: var(--colour-text-soft);
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+    .status-card ul {
+        margin: 0.35rem 0 0;
+        padding-left: 1.2rem;
+        color: var(--colour-text-soft);
+        font-size: 0.95rem;
+    }
+    .projects-section {
+        background: var(--colour-bg-alt);
+    }
+    .section-heading-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 1rem;
+    }
+    .section-heading-row > a {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--colour-text-soft);
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+    .section-heading-row > a:hover {
+        color: var(--colour-pink-bright);
+        text-decoration: underline;
+        text-underline-offset: 5px;
+    }
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: var(--grid-gap);
+    }
+    .capabilities-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--grid-gap);
+    }
+    .capability-card {
+        padding: 1.2rem;
+    }
+    .capability-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        color: var(--colour-pink-bright);
+        font-family: var(--font-mono);
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+    .capability-card h3 {
+        margin: 0.8rem 0 0.55rem;
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1.1;
+        text-transform: uppercase;
+    }
+    .capability-card p {
+        color: var(--colour-text-soft);
+        font-size: 0.94rem;
+        line-height: 1.55;
+    }
+    .capability-card small {
+        color: var(--colour-text-muted);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        line-height: 1.5;
+    }
+    .integration-card {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 48px minmax(240px, 0.8fr) minmax(320px, 1.2fr);
+        align-items: center;
+        gap: 1.25rem;
+        min-height: 118px;
+        padding: 1rem 1.2rem;
+        border-color: var(--colour-border-muted);
+        border-left: 5px solid var(--colour-pink-bright);
+        background: var(--colour-surface);
+    }
+    .integration-card .capability-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--colour-pink);
+        color: #fff;
+    }
+    .integration-kicker {
+        display: block;
+        margin-bottom: 0.2rem;
+        color: var(--colour-pink-bright);
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+    .integration-card h3 {
+        margin: 0 0 0.3rem;
+        color: #fff;
+        font-size: 1.4rem;
+    }
+    .integration-card small {
+        color: var(--colour-text-soft);
+    }
+    .integration-card p {
+        margin: 0;
+        color: #fff;
+    }
+    .contact-section {
+        padding: 1rem 0 var(--section-space);
+    }
+    .contact-banner {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr auto;
+        align-items: center;
+        gap: 2rem;
+        padding: clamp(1.4rem, 3vw, 2rem);
+        border: 2px solid var(--colour-pink-bright);
+        background: var(--colour-pink);
+        box-shadow: var(--shadow-lg);
+    }
+    .contact-banner h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.1rem);
+        font-weight: 400;
+        line-height: 0.9;
+    }
+    .contact-banner p {
+        max-width: 34ch;
+        margin: 0;
+    }
+    .contact-banner .button {
+        white-space: nowrap;
+    }
+    @media (max-width: 900px) {
+        .hero-grid {
+            grid-template-columns: 1fr;
+        }
+        .status-card {
+            max-width: 560px;
+        }
+        .capabilities-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .integration-card {
+            grid-template-columns: 44px 1fr;
+        }
+        .integration-card > p {
+            grid-column: 2;
+        }
+        .contact-banner {
+            grid-template-columns: 1fr 1fr;
+        }
+        .contact-banner .button {
+            grid-column: 2;
+        }
+    }
+    @media (max-width: 767px) {
+        .hero h1 {
+            font-size: clamp(3.6rem, 18vw, 5.25rem);
+        }
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+        .section-heading-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+        .section-heading-row .section-heading {
+            margin-bottom: 0.5rem;
+        }
+        .section-heading-row > a {
+            margin-bottom: 1.25rem;
+        }
+        .capabilities-grid {
+            grid-template-columns: 1fr;
+        }
+        .integration-card {
+            grid-template-columns: 38px 1fr;
+            gap: 0.8rem;
+        }
+        .integration-card > p {
+            grid-column: 1 / -1;
+        }
+        .contact-banner {
+            grid-template-columns: 1fr;
+        }
+        .contact-banner .button {
+            grid-column: auto;
+            justify-self: start;
+        }
+    }
+    @media (max-width: 430px) {
+        .hero-actions {
+            display: grid;
+        }
+        .hero-actions .button {
+            width: 100%;
+        }
+    }
 </style>

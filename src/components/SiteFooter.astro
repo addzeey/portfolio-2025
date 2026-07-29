@@ -1,0 +1,36 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="container footer-inner">
+		<p>&copy; {year} Adam Ashdown</p>
+		<nav aria-label="Social links">
+			<a href="mailto:info@aashdown.co.uk">Email</a>
+			<a href="https://github.com/addzeey" rel="me">GitHub</a>
+			<a href="https://www.linkedin.com/in/adamac" rel="me">LinkedIn</a>
+			<a href="https://twitter.com/addzeeyy" rel="me">Twitter</a>
+		</nav>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		border-top: 1px solid var(--colour-border-muted);
+		background: var(--colour-surface-inset);
+	}
+	.footer-inner {
+		display: flex;
+		min-height: 76px;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+	p { margin: 0; color: var(--colour-text-muted); font-family: var(--font-mono); font-size: 0.85rem; }
+	nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+	a { min-height: 44px; display: inline-flex; align-items: center; font-family: var(--font-display); font-size: 1.1rem; text-decoration: none; text-transform: uppercase; }
+	a:hover { color: var(--colour-pink-bright); text-decoration: underline; text-underline-offset: 4px; }
+	@media (max-width: 620px) {
+		.footer-inner { align-items: flex-start; flex-direction: column; padding-block: 1.25rem; }
+	}
+</style>

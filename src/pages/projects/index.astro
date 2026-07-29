@@ -1,0 +1,35 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectCard from "../../components/projects/ProjectCard.astro";
+import { getProjects } from "../../lib/projects";
+
+const projects = await getProjects();
+---
+
+<Layout title="Projects | Adam Ashdown" description="Web applications, streaming tools, platform integrations and automation built by Adam Ashdown.">
+	<section class="projects-page page-section">
+		<div class="container">
+			<p class="eyebrow">Selected builds / {String(projects.length).padStart(2, "0")}</p>
+			<div class="page-intro">
+				<h1>ALL<br /><span>PROJECTS.</span></h1>
+				<p>A mix of shipped products, internal systems and work in progress. Each case study focuses on what I built and how the pieces fit together.</p>
+			</div>
+			<div class="projects-grid">
+				{projects.map((project, index) => <ProjectCard project={project} number={index + 1} layout="index" />)}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.projects-page { padding-top: clamp(3rem, 6vw, 5rem); }
+	.page-intro { display: grid; grid-template-columns: minmax(300px, 7fr) minmax(260px, 5fr); align-items: end; gap: 2rem; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); padding-bottom: 2rem; border-bottom: 1px solid var(--colour-border-muted); }
+	h1 { margin: 0; font-size: clamp(4rem, 8vw, 7rem); font-weight: 400; line-height: 0.76; text-transform: uppercase; }
+	h1 span { color: var(--colour-pink-bright); }
+	.page-intro p { max-width: 48ch; margin: 0; color: var(--colour-text-soft); }
+	.projects-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--grid-gap); }
+	@media (max-width: 767px) {
+		.page-intro { grid-template-columns: 1fr; align-items: start; }
+		.projects-grid { grid-template-columns: 1fr; }
+	}
+</style>

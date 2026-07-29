@@ -14,8 +14,23 @@ const projects = defineCollection({
 			)
 			.optional(),
 		order: z.number().optional(),
-		// Allow optional banner image used by project pages
+		homepageOrder: z.number().optional(),
+		featured: z.boolean().default(false),
+		draft: z.boolean().default(false),
+		status: z.string().optional(),
+		projectType: z.string().optional(),
+		relatedProjects: z.array(z.string()).optional(),
+		highlights: z
+			.array(
+				z.object({
+					title: z.string(),
+					description: z.string(),
+				})
+			)
+			.max(4)
+			.optional(),
 		bannerImage: z.string().optional(),
+		bannerAlt: z.string().optional(),
 	}),
 });
 

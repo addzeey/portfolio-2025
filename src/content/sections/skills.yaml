@@ -18,8 +18,8 @@
 - category: Backend
   icon: fa-server
   skills:
-    - NodeJS
-    - Golang
+    - Node.js
+    - Go
     - PHP
     - MySQL
     - Next.js
@@ -27,9 +27,9 @@
     - PostgreSQL
     - MongoDB
     - REST API
-    - Websockets
+    - WebSockets
 
-- category: Tools, Technologies & Devops
+- category: Tools, Technologies & DevOps
   icon: fa-wrench
   skills:
     - Linux
@@ -43,13 +43,13 @@
     - Netlify
     - Cloudflare
     - Swagger
-    - WinForm & WPF
+    - WinForms & WPF
     - Electron
     - Photino.NET
     - Supabase
     - Stripe Payments
     - Xsolla Payments
-    - LLM Prompting and Intergration
+    - LLM Prompting and Integration
 
 - category: Design Tools & Technologies
   icon: fa-toolbox
@@ -57,7 +57,7 @@
     - Adobe Photoshop
     - Adobe Illustrator
     - Adobe After Effects
-    - Adobe Premier Pro
+    - Adobe Premiere Pro
     - Adobe InDesign
     - Adobe XD
     - InVision

@@ -3,85 +3,34 @@ import { getEntryBySlug } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 const uses = await getEntryBySlug("sections", "uses");
-let Content;
-if (uses) {
-	Content = (await uses.render()).Content;
-}
+const Content = uses ? (await uses.render()).Content : undefined;
 ---
 
-<Layout title={uses?.data.title ? `/uses – ${uses.data.title}` : "/uses"}>
-	<section class="uses-section">
+<Layout title="Uses | Adam Ashdown" description={uses?.data.description}>
+	<section class="uses-page page-section">
 		<div class="container">
-			{
-				uses ? (
-					<>
-						<h1 class="uses-title">{uses.data.title}</h1>
-						<p class="uses-intro">{uses.data.description}</p>
-						<article class="uses-body">
-							{Content && <Content />}
-						</article>
-					</>
-				) : (
-					<div class="error-message">
-						<h2>Uses page not found</h2>
-						<p>The uses.md file could not be loaded.</p>
-					</div>
-				)
-			}
+			<p class="eyebrow">Workspace / tools</p>
+			<h1>{uses?.data.title ?? "Uses"}</h1>
+			{uses ? (
+				<>
+					<p class="uses-intro">{uses.data.description}</p>
+					<article class="uses-body brutal-panel">{Content && <Content />}</article>
+				</>
+			) : (
+				<div class="uses-body brutal-panel"><h2>Uses page not found</h2></div>
+			)}
 		</div>
 	</section>
-
-	<style>
-		.uses-section {
-			padding: 120px 0 80px;
-			background: var(--bg-dark);
-			color: var(--text-light);
-			min-height: 100vh;
-		}
-		.uses-intro {
-			font-size: 20px;
-			margin-bottom: 48px;
-			opacity: 0.85;
-		}
-		.uses-body :global(h2) {
-			font-size: 36px;
-			font-weight: 700;
-			margin-top: 24px;
-			background: linear-gradient(45deg, var(--accent), var(--primary));
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-		}
-		.uses-body :global(ul) {
-			list-style: none;
-			padding: 0;
-			display: flex;
-			flex-direction: column;
-			gap: 12px;
-		}
-		.uses-body :global(li) {
-			padding: 20px 10px;
-			border-radius: 4px;
-			border: 1px solid rgba(110, 53, 175, 0.3);
-			transition: all 0.3s ease;
-			position: relative;
-			overflow: hidden;
-			backdrop-filter: blur(10px);
-			background: linear-gradient(to bottom right, #9146ff20, #7f7f7f10);
-		}
-		.uses-body li strong {
-			color: var(--primary);
-		}
-		@media (max-width: 768px) {
-			.uses-title {
-				font-size: 32px;
-			}
-			.uses-category h2 {
-				font-size: 22px;
-			}
-			.uses-category li {
-				font-size: 16px;
-			}
-		}
-	</style>
 </Layout>
+
+<style>
+	.uses-page h1 { margin: 0; font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 400; line-height: 0.9; text-transform: uppercase; }
+	.uses-intro { max-width: 62ch; margin: 1.25rem 0 2rem; color: var(--colour-text-soft); }
+	.uses-body { max-width: 900px; padding: clamp(1.25rem, 4vw, 2.5rem); border-color: var(--colour-border); box-shadow: var(--shadow-md); }
+	.uses-body :global(h2) { margin: 2.2rem 0 0.8rem; color: var(--colour-pink-bright); font-size: 1.8rem; font-weight: 400; text-transform: uppercase; }
+	.uses-body :global(h2:first-child) { margin-top: 0; }
+	.uses-body :global(ul) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; padding: 0; list-style: none; }
+	.uses-body :global(li) { padding: 0.85rem; border: 1px solid var(--colour-border-muted); background: var(--colour-surface-inset); color: var(--colour-text-soft); }
+	.uses-body :global(strong) { color: var(--colour-text); }
+	@media (max-width: 700px) { .uses-body :global(ul) { grid-template-columns: 1fr; } }
+</style>

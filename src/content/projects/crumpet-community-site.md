@@ -1,42 +1,63 @@
 ---
-title: "MurderCrumpet VOD & Contest Website"
-description: "A full-stack web application for archiving, browsing, and interacting with Twitch VODs, chat replays, and community contests. Built with React, TypeScript, Supabase, and TanStack Query for a seamless, modern user experience. Integrates with a custom automated archiving system and HLS playback via Cloudflare for robust, scalable video delivery."
-tags: ["React", "TypeScript", "Supabase", "TanStack", "Twitch API", "VOD", "HLS", "Chat", "Cloudflare"]
+title: "Crump.gg — Streaming & Community Hub"
+description: "MurderCrumpet's official site, bringing the live stream, searchable VOD archive, synchronised chat replay, Twitch clips, schedules and community rankings into one place."
+tags: ["TanStack Start", "React", "TypeScript", "Cloudflare", "Supabase", "HLS", "Twitch API"]
 links:
-  - label: "Github [Contest Website]"
-    url: "https://github.com/addzeey/crump-contest"
-  - label: "Contest Standalone"
-    url: "https://crumpcontest.com/"
-  - label: "New Combined VOD & Contest WIP"
+  - label: "Visit Crump.gg"
     url: "https://crump.gg"
-order: 1
+order: 0
+homepageOrder: 1
+featured: true
+status: "Live"
+projectType: "Full-stack community platform"
+relatedProjects: ["automated-twitch-archiving", "twitch-hype-train-overlay", "crumpet-clips"]
+highlights:
+  - title: "Official community hub"
+    description: "Combines live viewing, VODs, clips, schedules and community features under one site."
+  - title: "VOD and chat replay"
+    description: "Pairs HLS playback with chapters, synchronised virtualised chat and Twitch and 7TV emotes."
+  - title: "Viewer navigation"
+    description: "Search, game and date filters make a growing archive easier to browse."
+  - title: "Media operations"
+    description: "Internal tools cover VOD metadata, activity processing, redaction and ranking publication."
 ---
 
-## Project Brief
+## Overview
 
-The MurderCrumpet Website is a feature-rich platform for archiving and exploring Twitch VODs, chat replays, and community contest entries. It is tightly integrated with a custom automated archiving project, which handles VOD and chat capture, and provides a seamless pipeline for ingesting, processing, and serving content. The site features a custom HLS implementation for video playback, leveraging Cloudflare for fast, reliable, and scalable delivery. Designed for both viewers and administrators, it provides robust tools for video playback, chapter navigation, chat replay, and contest management. The site leverages Supabase for authentication, data storage, and cloud integration, ensuring a reliable and scalable experience.
+Crump.gg is MurderCrumpet's official streaming and community site. What began as separate VOD and contest work has become one place for the live stream, archived broadcasts, Twitch clips, schedules, community links and monthly streamer rankings.
 
-## Features
+I rebuilt the application around TanStack Start and React, with server-rendered routes and a new broadcast-inspired interface. The site pulls together data and media from Twitch, Supabase, Cloudflare and the separate VOD archiving pipeline.
 
-- **VOD Archive & Playback:** Browse and watch archived Twitch VODs with chapter navigation, game metadata, and high-quality video streaming.
-- **Chat Replay:** Synchronized chat replay alongside VODs, including emote support and channel-specific features.
-- **Contest Management:** Submit, browse, and vote on community contest entries, with admin tools for moderation and results.
-- **User Authentication:** Secure login via Twitch OAuth, with role-based access for admins and regular users.
-- **Responsive UI:** Modern, mobile-friendly interface built with React, TypeScript, and utility-first styling.
-- **Cloud Integration:** Uses Supabase and Cloudflare for scalable storage, authentication, and data management.
-- **Admin Dashboard:** Tools for managing users, videos, and contest entries, including role assignment and video uploads.
-- **Performance & Reliability:** Optimized data fetching with TanStack Query, error handling, and efficient state management.
+## Live and Archive Experience
 
-## Development & Design
+The homepage brings the current Twitch stream, chat, latest archived VOD, recent clips and weekly schedule together without forcing viewers through several services.
 
-The application is built with a modular, maintainable codebase following best practices for React and TypeScript. All data fetching is handled via TanStack Query, with strict typing using Supabase-generated types. The project structure enforces clear separation of concerns, with dedicated folders for components, hooks, utilities, and types. The UI is designed for clarity and ease of use, with a focus on accessibility and responsiveness.
+The VOD archive supports title search, game and date filters, month-based grouping and incremental loading. Individual broadcasts include chapter navigation, timestamp sharing, saved playback position, theater mode, picture-in-picture and keyboard controls.
 
-## Use Cases
+## Chat and Activity
 
-- Archiving and browsing Twitch VODs and chat for the MurderCrumpet community.
-- Running and managing community art or video contests with voting and moderation.
-- Providing a seamless, interactive experience for both viewers and content creators.
+Archived chat stays in step with video playback and uses virtualised rendering for longer streams. Twitch and 7TV emotes are resolved in context, while a separate activity timeline highlights busy chat periods and known clip moments.
 
----
+Viewers can jump around the recording without losing the relationship between the video, chapter data and conversation around it.
 
-*Empowering the MurderCrumpet community with a modern, reliable platform for VOD archiving, chat replay, and creative contests.*
+## Clips and Community Features
+
+The clips area supports date ranges, view-based or recent sorting, pagination and embedded playback. Where source data allows it, clips link back to the matching point in the archived broadcast.
+
+Monthly community rankings are published as a browsable archive. Other areas, including the gallery and migrated contest tools, remain in development and are not presented as finished features.
+
+## Admin and Media Tools
+
+Internal tools handle VOD titles, publication state, content warnings and activity generation. A timeline editor creates HLS-segment redactions and keeps chat and clip timing aligned after cuts. The same admin area also publishes monthly ranking packages.
+
+## Architecture
+
+- **Application:** React, TypeScript, TanStack Start, Router and Query.
+- **Media:** HLS playback with Video.js, archived chat and activity metadata.
+- **Data:** Supabase for VOD and ranking metadata.
+- **Cloud:** Cloudflare Workers, R2 and D1 for runtime, storage and supporting services.
+- **Integrations:** Twitch stream, chat, clips, schedules and emotes.
+
+## Current State
+
+The live stream, VOD archive, chat replay, clips, schedules and rankings are available on the public site. Gallery, account, builder and contest migrations are still being worked on.

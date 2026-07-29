@@ -1,32 +1,28 @@
 ---
 title: "Songfo Prototype"
-description: "A prototype for a service that fetches the current song from Spotify, designed for streamers and content creators. Built as a proof of concept to test usability and gather feedback."
-tags:
-    [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "jQuery",
-        "PHP",
-        "Spotify API",
-        "OBS",
-        "Streaming",
-    ]
+description: "A small OBS browser source that displays the currently playing Spotify track, built to test the first idea behind Livestream Tools."
+tags: ["HTML", "CSS", "JavaScript", "PHP", "Spotify API", "OBS"]
 links:
-    - label: "Visit Website"
-      url: "https://songfo.livestream.tools/"
+  - label: "Visit prototype"
+    url: "https://songfo.livestream.tools/"
 bannerImage: "/images/projects/project-header-songfo.png"
-order: 5
+bannerAlt: "Songfo current-track overlay prototype"
+order: 7
+status: "Prototype"
+projectType: "OBS browser source"
+relatedProjects: ["livestream-tools-wip"]
 ---
 
-## Project Brief
+## Overview
 
-One of my biggest passions is the video game industry and the streaming industry that has come from it. Songfo is a planned passion project to provide tools for content creators to use on their streams. This prototype demonstrates one of those tools: fetching and displaying the current song from Spotify.
+Songfo tested one idea planned for Livestream Tools: showing the current Spotify track on stream through an OBS Browser Source.
 
 ## Design
 
-As a prototype, the design focused on simplicity and user experience, making it easy for streamers to use without distractions. The interface was kept minimal to allow quick testing and feedback.
+The prototype kept both setup and output deliberately small. Streamers could connect Spotify, add the browser source and test the overlay without working through a larger dashboard.
 
 ## Development
 
-The backend was built with PHP to handle Spotify API authentication. The frontend uses HTML, CSS, and JavaScript (primarily jQuery) for rapid development and testing. The prototype was shared with a small group of streamers for feedback and iteration.
+PHP handled Spotify authentication and API requests. The frontend used HTML, CSS and JavaScript, with jQuery used to move quickly during the prototype stage.
+
+The project was shared with a small group of streamers for early feedback before the broader Livestream Tools work began.

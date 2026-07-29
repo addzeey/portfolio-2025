@@ -1,32 +1,46 @@
 ---
 title: "ECO — Twitch Extension"
-description: "Led development of an interactive Twitch extension that connects viewers with ECO community servers — elections, stats, live data, and more."
-tags: ["Twitch Extensions", "TypeScript", "Vue/React", "OAuth", "WebSocket", "REST", "Cloudflare", "CI/CD"]
+description: "A Twitch extension for exploring ECO server elections, statistics and live status data without leaving the stream."
+tags: ["Twitch Extensions", "TypeScript", "OAuth", "WebSockets", "REST", "Cloudflare", "CI/CD"]
 links:
-  - label: "Twitch Extension (Dashboard)"
+  - label: "Extension dashboard"
     url: "https://dashboard.twitch.tv/extensions/0sezysj452rx8ca4h52j5a50d1u9ig-1.0.0"
-  - label: "ECO (Overview)"
-    url: "/projects/slg-eco-overview"
-order: 3
+order: 5
+status: "Shipped"
+projectType: "Interactive Twitch extension"
+relatedProjects: ["slg-eco-overview"]
+highlights:
+  - title: "Server elections"
+    description: "Displayed active ballots and results from connected ECO community servers."
+  - title: "Live server data"
+    description: "Brought server status and game information into Twitch panels and overlays."
+  - title: "Creator setup"
+    description: "Provided configuration for linking a Twitch channel with its ECO server context."
+  - title: "Release workflow"
+    description: "Versioned extension releases were published through Twitch with CI/CD support."
 ---
 
-## Project Brief
-I led the design and development of ECO's Twitch extension to bring in-game community server interactions directly into Twitch streams. The extension surfaced elections, server stats, and other live data, letting viewers engage with streamers' ECO worlds in real time.
+## Overview
 
-## Features
-- Community Elections: surfaced active ballots and results to encourage participation and discussion.
-- Live Server Stats: displayed key metrics and status from ECO servers for viewers at-a-glance.
-- Streamer Configuration: simple setup and secure linking for creators to connect their server or community context.
-- Performance & UX: optimized payload sizes, caching, and rendering for a responsive, low-latency overlay experience.
+I led the design and development of ECO's Twitch extension. It brought information from community game servers into Twitch, so viewers could follow elections, server statistics and live status while watching a stream.
+
+## Viewer Features
+
+- Active community elections and their results.
+- Live server statistics and status information.
+- Twitch panel and overlay views suited to different channel layouts.
+- Cached responses and smaller payloads for the embedded Twitch environment.
+
+## Creator Configuration
+
+Creators could link their Twitch channel to the relevant ECO server or community context. The extension used Twitch's authentication model and app-scoped tokens when calling supporting services.
 
 ## Architecture
-- Frontend: built as a Twitch panel/overlay extension using modern tooling and TypeScript.
-- Backend Integration: consumed ECO services and internal APIs for server/election data.
-- Auth: integrated with Twitch extension auth and app-scoped tokens where appropriate.
-- Deploy: versioned and released via Twitch's extension portal with CI/CD automation.
 
-## Outcomes
-- Increased viewer engagement around ECO streams.
-- Robust, maintainable codebase aligned with Twitch extension best practices.
+The TypeScript frontend consumed ECO services and internal APIs for election and server data. WebSocket and REST connections covered different update patterns, while Cloudflare supported delivery and integration work around the extension.
 
-See the ECO overview for related web, backend, and DevOps work: [/projects/slg-eco-overview](/projects/slg-eco-overview).
+Releases were versioned and submitted through Twitch's extension portal using a CI/CD workflow.
+
+## Related Work
+
+The extension formed one part of my wider work on ECO's website, backend services and infrastructure. [Read the ECO overview](/projects/slg-eco-overview).
