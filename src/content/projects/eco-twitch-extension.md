@@ -43,4 +43,4 @@ Releases were versioned and submitted through Twitch's extension portal using a 
 
 ## Related Work
 
-The extension formed one part of my wider work on ECO's website, backend services and infrastructure. [Read the ECO overview](/projects/slg-eco-overview).
+The extension formed one part of my wider work on ECO's website, backend services and infrastructure. [Read the ECO overview](/projects/slg-eco-overview/).
