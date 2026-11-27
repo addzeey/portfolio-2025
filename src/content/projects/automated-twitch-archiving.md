@@ -4,7 +4,7 @@ description: "A Go service that records Twitch streams and chat, builds HLS arch
 tags: ["Go", "Twitch EventSub", "Streamlink", "FFmpeg", "Cloudflare R2", "Supabase", "Docker"]
 links:
   - label: "View VOD archive"
-    url: "https://crump.gg"
+    url: "https://crump.gg/vods"
 order: 1
 homepageOrder: 2
 status: "Active"

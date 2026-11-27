@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ashdown.dev/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/uses/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/automated-twitch-archiving/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/crumpet-clips/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/crumpet-community-site/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/eco-twitch-extension/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/livestream-tools-wip/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/slg-eco-overview/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/songfo-prototype/</loc>
+  </url>
+  <url>
+    <loc>https://ashdown.dev/projects/twitch-hype-train-overlay/</loc>
+  </url>
+</urlset>
