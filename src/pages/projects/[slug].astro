@@ -28,7 +28,7 @@ const bannerImage = project.data.bannerImage && existsSync(join(process.cwd(), "
 <Layout title={`${project.data.title} | Adam Ashdown`} description={project.data.description} image={bannerImage}>
 	<div class="project-page">
 		<div class="container">
-			<a class="back-link" href="/projects"><span aria-hidden="true">←</span> Back to projects</a>
+			<a class="back-link" href="/projects/"><span aria-hidden="true">←</span> Back to projects</a>
 			<section class="project-hero" aria-labelledby="project-title">
 				<div class="project-intro">
 					<span class="number-badge">{String(projectIndex + 1).padStart(2, "0")}</span>
@@ -88,16 +88,16 @@ const bannerImage = project.data.bannerImage && existsSync(join(process.cwd(), "
 					{relatedProject && relatedProject.slug !== project.slug && (
 						<aside class="related-card brutal-panel">
 							<div><span>Related work</span><h2>{relatedProject.data.title}</h2><p>{relatedProject.data.description}</p></div>
-							<a class="button button--secondary" href={`/projects/${relatedProject.slug}`}>View project <span aria-hidden="true">→</span></a>
+							<a class="button button--secondary" href={`/projects/${relatedProject.slug}/`}>View project <span aria-hidden="true">→</span></a>
 						</aside>
 					)}
 				</div>
 			</div>
 
 			<nav class="project-navigation" aria-label="Project navigation">
-				<a href={`/projects/${previousProject?.slug}`}><small>Previous project</small><span>← {previousProject?.data.title}</span></a>
-				<a class="all-projects" href="/projects"><small>Browse</small><span>All projects</span></a>
-				<a href={`/projects/${nextProject?.slug}`}><small>Next project</small><span>{nextProject?.data.title} →</span></a>
+				<a href={`/projects/${previousProject?.slug}/`}><small>Previous project</small><span>← {previousProject?.data.title}</span></a>
+				<a class="all-projects" href="/projects/"><small>Browse</small><span>All projects</span></a>
+				<a href={`/projects/${nextProject?.slug}/`}><small>Next project</small><span>{nextProject?.data.title} →</span></a>
 			</nav>
 		</div>
 	</div>

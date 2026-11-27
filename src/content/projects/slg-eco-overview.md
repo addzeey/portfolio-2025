@@ -51,7 +51,7 @@ I contributed to the .NET services behind accounts, authentication, game-user va
 
 ## Related Work
 
-I also led development of an ECO Twitch extension that displayed server elections, statistics and live data inside Twitch. [Read the Twitch extension case study](/projects/eco-twitch-extension).
+I also led development of an ECO Twitch extension that displayed server elections, statistics and live data inside Twitch. [Read the Twitch extension case study](/projects/eco-twitch-extension/).
 
 ## Stack
 

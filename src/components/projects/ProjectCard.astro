@@ -16,12 +16,12 @@ const { project, number, layout = "standard" } = Astro.props;
 		{project.data.featured && <span class="featured-label">Featured project</span>}
 		{!project.data.featured && project.data.status && <span class="status-label">{project.data.status}</span>}
 	</div>
-	<h3><a href={`/projects/${project.slug}`}>{project.data.title}</a></h3>
+	<h3><a href={`/projects/${project.slug}/`}>{project.data.title}</a></h3>
 	<p>{project.data.description}</p>
 	<ul class="tag-list" aria-label="Technologies">
 		{project.data.tags?.slice(0, 4).map((tag) => <li class="tag">{tag}</li>)}
 	</ul>
-	<a class="project-action" href={`/projects/${project.slug}`}>View project <span aria-hidden="true">→</span></a>
+	<a class="project-action" href={`/projects/${project.slug}/`}>View project <span aria-hidden="true">→</span></a>
 </article>
 
 <style>
